@@ -1,0 +1,46 @@
+.splash-screen {
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  position: fixed;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+
+  background-color: #a8c9da;
+}
+
+.splash-screen.hidden {
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
+  animation: splash-slide-out 0.5s cubic-bezier(0.5, 0, 0.5, 1);
+}
+
+.splash-logo {
+  width: 100%;
+  max-width: 700px;
+  animation: splash-rotate 8s linear infinite;
+}
+
+@keyframes splash-slide-out {
+  0% {
+    visibility: visible;
+    transform: translateX(0);
+  }
+  100% {
+    visibility: hidden;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes splash-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}

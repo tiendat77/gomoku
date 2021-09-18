@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Ionic App</title>
+  <title>Gomoku</title>
 
   <base href="/" />
 
@@ -13,6 +13,7 @@
   <meta name="msapplication-tap-highlight" content="no" />
 
   <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <link rel="stylesheet" href="assets/style/splash.css" />
 
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,7 +21,11 @@
 </head>
 
 <body>
-  <app-root></app-root>
+  <div id="splash-screen" class="splash-screen">
+    <img class="splash-logo" src="assets/image/koi-fishes.png">
+  </div>
+
+  <gomoku-root></gomoku-root>
 </body>
 
 </html>

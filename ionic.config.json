@@ -1,0 +1,7 @@
+{
+  "name": "gomoku",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

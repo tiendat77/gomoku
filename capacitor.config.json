@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "gomoku",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

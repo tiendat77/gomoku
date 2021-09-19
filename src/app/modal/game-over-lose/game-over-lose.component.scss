@@ -1,0 +1,74 @@
+.modal-title {
+  height: 0;
+}
+
+.close-button {
+  transform: translateX(10px);
+}
+
+.game-over {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.lose {
+  color: #757575;
+}
+
+.game-result {
+  width: 100%;
+  margin-bottom: 12px;
+
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.emotion {
+  width: 60%;
+  margin-bottom: 12px;
+}
+
+.difficulty {
+  width: 100%;
+  margin-bottom: 12px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  color: #575757;
+  font-weight: bold;
+  text-align: center;
+}
+
+.text {
+  font-size: 1.5em;
+}
+
+.chip {
+  padding: 6px 40px;
+  text-align: center;
+
+  border-radius: 50px;
+  background: #f3f3f3;
+}
+
+.level {
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.level.easy {
+  color: #567df4;
+}
+
+.level.medium {
+  color: #f4d356;
+}
+
+.level.insane {
+  color: #f45656;
+}

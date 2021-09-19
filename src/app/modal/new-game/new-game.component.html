@@ -4,7 +4,7 @@
     <div class="modal-header">
       gomoku
     </div>
-    <div role="button" class="icon-button">
+    <div role="button" class="icon-button close" (click)="close()">
       <ion-icon name="gomoku-close"></ion-icon>
     </div>
   </div>
@@ -78,7 +78,7 @@
   </div>
 
   <div class="modal-action">
-    <div role="button" class="raised-button modal-action-button">
+    <div role="button" class="raised-button modal-action-button" (click)="confirm()">
       new game
     </div>
   </div>

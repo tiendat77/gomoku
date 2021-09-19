@@ -3,6 +3,8 @@ import { ModalController } from '@ionic/angular';
 
 /** Modal */
 import { NewGameComponent } from '../../modal';
+import { GameOverWinComponent } from '../../modal';
+import { GameOverLoseComponent } from '../../modal';
 
 @Component({
   selector: 'gomoku-main',
@@ -24,18 +26,31 @@ export class MainPage implements OnInit {
       cssClass: 'overlay-modal'
     });
 
-    // const { data } = await modal.onWillDismiss();
-    // console.log(data);
+    modal.onDidDismiss().then(({ data }) => {
+      if (!data) { return; }
+
+      console.log(data);
+    });
 
     return await modal.present();
   }
 
-  win() {
+  async win() {
+    const modal = await this.modalCtrl.create({
+      component: GameOverWinComponent,
+      cssClass: 'overlay-modal'
+    });
 
+    return await modal.present();
   }
 
-  lose() {
+  async lose() {
+    const modal = await this.modalCtrl.create({
+      component: GameOverLoseComponent,
+      cssClass: 'overlay-modal'
+    });
 
+    return await modal.present();
   }
 
 }

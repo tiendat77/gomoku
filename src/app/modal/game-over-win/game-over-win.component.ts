@@ -1,14 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'gomoku-game-over-win',
   templateUrl: './game-over-win.component.html',
   styleUrls: ['./game-over-win.component.scss'],
 })
-export class GameOverWinComponent implements OnInit {
+export class GameOverWinComponent {
 
-  constructor() { }
+  constructor(
+    private modalCtrl: ModalController
+  ) { }
 
-  ngOnInit() {}
+  close() {
+    this.modalCtrl.dismiss();
+  }
+
+  again() {
+    this.modalCtrl.dismiss(true);
+  }
 
 }

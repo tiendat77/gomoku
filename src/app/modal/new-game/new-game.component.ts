@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'gomoku-new-game',
@@ -7,8 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewGameComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modalCtrl: ModalController
+  ) { }
 
   ngOnInit() {}
+
+  close() {
+    this.modalCtrl.dismiss();
+  }
+
+  confirm() {
+    const config = {
+      vs: 'human',
+      level: 'easy',
+      playas: 'white',
+    };
+
+    this.modalCtrl.dismiss(config);
+  }
 
 }

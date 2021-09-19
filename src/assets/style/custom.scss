@@ -101,3 +101,32 @@
     background-color: #fff;
   }
 }
+
+/* smartphone small-screen */
+@media only screen and (max-width: 340px) {
+  .raised-icon-button {
+    font-size: 1.3em;
+    min-width: 45px;
+    min-height: 45px;
+  }
+
+  .raised-button {
+    font-size: 1.3em;
+    min-height: 45px;
+    padding: 6px 20px;
+  }
+
+  .segments {
+    min-height: 45px;
+  }
+}
+
+/* tablet */
+@media only screen and (min-width: 680px) {
+
+}
+
+/* desktop */
+@media only screen and (min-width: 980px) {
+
+}

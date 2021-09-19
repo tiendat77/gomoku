@@ -41,3 +41,27 @@
     width: 100%;
   }
 }
+
+/* smartphone small-screen */
+@media only screen and (max-width: 340px) {
+  .overlay-modal {
+    --width: 300px;
+    --height: 420px;
+  }
+
+  .modal-container {
+    font-size: 0.85em;
+  }
+
+  .modal-header {
+    font-size: 1.3em;
+  }
+}
+
+/* tablet */
+@media only screen and (min-width: 680px) {
+  .overlay-modal {
+    --width: 450px;
+    --height: 570px;
+  }
+}

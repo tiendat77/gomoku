@@ -1,0 +1,100 @@
+.app-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  max-width: 850px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-size: 140%;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-position-x: -44vw;
+  background-image: url(/assets/image/lotus-koi.png);
+}
+
+.app-header {
+  height: 60px;
+  padding: 10px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-content {
+  flex: 1;
+  padding: 30px 30px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header-title {
+  color: #22215b;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.game-status {
+  width: 100%;
+  min-height: 58px;
+  padding: 8px 12px;
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #eef2fe;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.game-board {
+  width: 300px;
+  height: 300px; // resize
+  overflow: hidden;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url(/assets/image/board.png);
+}
+
+.game-control {
+  width: 100%;
+  margin-top: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .go-button {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+/* smartphone small-screen */
+@media only screen and (max-width: 340px) {
+
+}
+
+/* tablet */
+@media only screen and (min-width: 680px) {
+
+}
+
+/* desktop */
+@media only screen and (min-width: 980px) {
+  .app-container {
+    margin: auto;
+    background-size: 1000px;
+    background-position-y: 5vh;
+    background-position-x: -32vw;
+  }
+}

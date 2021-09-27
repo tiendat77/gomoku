@@ -8,6 +8,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { ModalModule } from './modal/modal.module';
+
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [AppComponent],
@@ -17,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
     IonicStorageModule.forRoot(),
     IonicModule.forRoot({_forceStatusbarPadding: true}),
+    ModalModule,
   ],
   providers: [
     {

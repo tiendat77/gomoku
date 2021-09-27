@@ -10,7 +10,7 @@
       <div class="header-title">gomoku</div>
 
       <div>
-        <div role="button" class="icon-button">
+        <div role="button" class="icon-button" (click)="control.test()">
           <ion-icon name="gomoku-more"></ion-icon>
         </div>
       </div>
@@ -18,23 +18,26 @@
 
     <div class="app-content">
       <div class="game-status">
-        your turn
+        <div class="stone" [ngClass]="control.color"></div>
+        <div class="message">{{control.message}}</div>
       </div>
 
-      <div class="game-board">
-
+      <div class="game-area">
+        <div class="game-play">
+          <gomoku-game #game></gomoku-game>
+        </div>
       </div>
 
       <div class="game-control">
-        <div role="button" class="raised-icon-button" (click)="win()">
+        <div role="button" class="raised-icon-button" (click)="control.undo()">
           <ion-icon name="gomoku-undo"></ion-icon>
         </div>
 
-        <div role="button" class="raised-button go-button">
+        <div role="button" class="raised-button go-button" (click)="test()">
           <span>go</span>
         </div>
 
-        <div role="button" class="raised-icon-button" (click)="create()">
+        <div role="button" class="raised-icon-button" (click)="control.create()">
           <ion-icon name="gomoku-star"></ion-icon>
         </div>
       </div>

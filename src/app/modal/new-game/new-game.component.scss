@@ -7,6 +7,18 @@
   height: 30px;
 }
 
+.stone-black {
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
+  background: radial-gradient(72% 72% at 32% 28%, #777 0%, #4b4b4b 565%, #292929 100%);
+}
+
+.stone-white {
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px rgba(228, 228, 228, 0.2);
+  background: radial-gradient(72% 72% at 32% 28%, #fefefe 14%, #e0e0e0 100%);
+}
+
 .option {
   margin-left: 6px;
 }

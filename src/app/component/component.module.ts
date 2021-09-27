@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 
+import { GoComponent } from './go/go.component';
+import { GameComponent } from './game/game.component';
 import { BoardComponent } from './board/board.component';
+import { PlacesComponent } from './places/places.component';
 
 @NgModule({
   imports: [
@@ -13,10 +16,16 @@ import { BoardComponent } from './board/board.component';
     IonicModule,
   ],
   exports: [
-    BoardComponent
+    GoComponent,
+    GameComponent,
+    BoardComponent,
+    PlacesComponent,
   ],
   declarations: [
-    BoardComponent
+    GoComponent,
+    GameComponent,
+    BoardComponent,
+    PlacesComponent,
   ]
 })
 export class ComponentModule {}

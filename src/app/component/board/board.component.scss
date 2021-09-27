@@ -1,0 +1,72 @@
+.board {
+  width: 640px;
+  height: 640px;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.board-row {
+  height: 40px;
+  width: 560px;
+
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+
+  user-select: none;
+  border-top: 1px solid #d3967a;
+  box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px inset;
+}
+
+.board-row:last-child {
+  overflow: hidden;
+  border-bottom: 1px solid #d3967a;
+}
+
+.board-cell {
+  width: 40px;
+  height: 40px;
+  user-select: none;
+  box-sizing: border-box;
+  border-left: 1px solid #d3967a;
+}
+
+.board-cell:last-child {
+  overflow: hidden;
+  border-right: 1px solid #d3967a;
+}
+
+.mark {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+
+  background-color: #d3967a;
+  border-radius: 100%;
+  box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px inset;
+}
+
+.mark-1 {
+  top: 315px;
+  left: 314px;
+}
+
+.mark-2 {
+  top: 155px;
+  left: 154px;
+}
+
+.mark-3 {
+  top: 155px;
+  left: 474px;
+}
+
+.mark-4 {
+  top: 475px;
+  left: 154px;
+}
+
+.mark-5 {
+  top: 475px;
+  left: 474px;
+}

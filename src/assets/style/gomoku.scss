@@ -1,20 +1,107 @@
-.gomoku-stone {
+.gomoku-game {
+  width: 640px;
+  height: 640px;
+  display: block;
 
+  margin: auto;
+  position: relative;
+  transform-origin: top left;
+
+  border-radius: 40px;
+  background: #f7ead0;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.13);
+
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-image: url(/assets/svg/gomoku-board-empty.svg);
 }
 
-.stone-black {
-  width: 25px;
-  height: 25px;
+.gomoku-game.playing {
+  cursor: pointer;
+}
+
+.gomoku-places {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.gomoku-board {
+  width: 640px;
+  height: 640px;
+  padding: 40px;
+
+  display: block;
+  box-sizing: border-box;
+
+  user-select: none;
+  pointer-events: none;
+}
+
+.gomoku-go {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+  user-select: none;
   border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.placeable.black {
+  .gomoku-go:not(.set):hover {
+    opacity: 0.7;
+    background: radial-gradient(closest-corner at 30% 25%, #9a9a9a, #565656, #3c3c3c);
+  }
+}
+
+.placeable.white {
+  .gomoku-go:not(.set):hover {
+    opacity: 0.7;
+    background: radial-gradient(closest-corner at 30% 25%, #f6f6f6, #d5d5d5);
+  }
+}
+
+.set {
+  transform: scale(0.9);
   box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
-  background: radial-gradient(72% 72% at 32% 28%, #777 0%, #4b4b4b 565%, #292929 100%);
 }
 
-.stone-white {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  box-shadow: 0px 2px 4px rgba(228, 228, 228, 0.2);
-  background: radial-gradient(72% 72% at 32% 28%, #fefefe 14%, #e0e0e0 100%);
+.set.black {
+  background: radial-gradient(closest-corner at 30% 25%, #9a9a9a, #565656, #3c3c3c);
 }
 
+.set.white {
+  background: radial-gradient(closest-corner at 30% 25%, #f8f8f8, #e3e3e3);
+}
+
+.last-move.white {
+  box-shadow:
+    rgba(232, 232, 232, 0.5) 0px -2px 15px inset,
+    rgba(242, 242, 242, 0.4) -2px -1px 40px inset,
+    rgba(171, 171, 171, 0.5) 0px 0px 2px,
+    #fff 0px 0px 10px 3px;
+}
+
+.last-move.black {
+  box-shadow:
+    rgba(255, 255, 255, 0.5) 0px -2px 15px inset,
+    rgba(10, 10, 10, 0.4) -2px -1px 40px inset,
+    rgba(0, 0, 0, 0.5) 0px 0px 2px,
+    rgba(255, 255, 255) 0px 0px 10px 3px;
+}
+
+.warning {
+  background: rgba(255, 36, 66, 0.7);
+  box-shadow: rgba(255, 36, 66) 0px 0px 20px;
+}
+
+.blur {
+  opacity: 0.5;
+}

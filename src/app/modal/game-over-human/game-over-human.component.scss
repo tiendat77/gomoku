@@ -1,0 +1,31 @@
+.modal-title {
+  height: 0;
+}
+
+.close-button {
+  transform: translateX(10px);
+}
+
+.game-over {
+  align-items: center;
+  justify-content: center;
+}
+
+.game-result {
+  width: 100%;
+  margin-bottom: 1em;
+
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  color: #e8de00;
+}
+
+.emotion {
+  width: 60%;
+  margin-bottom: 12px;
+}
+
+.text {
+  font-size: 1.5em;
+}

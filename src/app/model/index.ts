@@ -1,3 +1,3 @@
-export * from './board';
-export * from './game';
-export * from './player';
+export * from './Player';
+export * from './AIPlayer';
+export * from './HumanPlayer';

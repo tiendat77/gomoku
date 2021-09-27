@@ -9,29 +9,17 @@
 
   <div class="modal-content game-over">
     <div class="game-result win">
-      <span>you win</span>
+      <span>{{result}} win</span>
     </div>
 
     <div class="emotion">
-      <img src="/assets/icon/surprised.svg" >
-    </div>
-
-    <div class="difficulty">
-      <div class="text">
-        difficulty
-      </div>
-
-      <div class="chip">
-        <div class="level easy">
-          easy
-        </div>
-      </div>
+      <img src="/assets/icon/shocked.svg" >
     </div>
   </div>
 
   <div class="modal-action">
     <div role="button" class="raised-button modal-action-button" (click)="again()">
-      again
+      <span>again</span>
     </div>
   </div>
 </div>

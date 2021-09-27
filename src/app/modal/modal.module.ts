@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NewGameComponent } from './new-game/new-game.component';
-import { GameOverWinComponent } from './game-over-win/game-over-win.component';
-import { GameOverLoseComponent } from './game-over-lose/game-over-lose.component';
+import { GameOverAiComponent } from './game-over-ai/game-over-ai.component';
+import { GameOverHumanComponent } from './game-over-human/game-over-human.component';
 
 @NgModule({
   imports: [
@@ -14,13 +14,13 @@ import { GameOverLoseComponent } from './game-over-lose/game-over-lose.component
   ],
   exports: [
     NewGameComponent,
-    GameOverWinComponent,
-    GameOverLoseComponent
+    GameOverAiComponent,
+    GameOverHumanComponent
   ],
   declarations: [
     NewGameComponent,
-    GameOverWinComponent,
-    GameOverLoseComponent
+    GameOverAiComponent,
+    GameOverHumanComponent
   ]
 })
 export class ModalModule { }

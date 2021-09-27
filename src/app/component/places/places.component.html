@@ -1,0 +1,7 @@
+<ng-container *ngFor="let r of size">
+  <gomoku-go
+    *ngFor="let c of size"
+    [r]="r" [c]="c"
+    (onGo)="onSet($event)">
+  </gomoku-go>
+</ng-container>

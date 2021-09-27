@@ -9,42 +9,58 @@
     </div>
   </div>
 
-  <div class="modal-content">
-    <section class="block">
-      <div class="text">
-        play as
-      </div>
-      <div class="segments">
-        <div class="segment active">
-          <div class="stone-black"></div>
-          <span class="option">black</span>
-        </div>
-
-        <div class="segment">
-          <div class="stone-white"></div>
-          <span class="option">white</span>
-        </div>
-      </div>
-    </section>
-
+  <div class="modal-content" [formGroup]="form">
     <section class="block">
       <div class="text">
         play against
       </div>
       <div class="segments">
-        <div class="segment active">
+        <label for="againstComputer" class="segment">
           <div class="option-icon">
             <img class="icon" src="/assets/icon/robot.svg">
           </div>
           <span class="option">idiot</span>
-        </div>
+          <input checked type="radio"
+                 id="againstComputer" value="hvc"
+                 formControlName="mode">
+          <div class="indicator"></div>
+        </label>
 
-        <div class="segment">
+        <label for="againstHuman" class="segment">
           <div class="option-icon">
             <img class="icon" src="/assets/icon/human.svg">
           </div>
           <span class="option">human</span>
-        </div>
+          <input type="radio"
+                 id="againstHuman" value="hvh"
+                 formControlName="mode">
+          <div class="indicator"></div>
+        </label>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="text">
+        play as
+      </div>
+      <div class="segments" [class.disabled]="!color.enabled">
+        <label class="segment" for="playAsWhite">
+          <div class="stone-white"></div>
+          <span class="option">white</span>
+          <input type="radio"
+                 id="playAsWhite" value="white"
+                 formControlName="color">
+          <div class="indicator"></div>
+        </label>
+
+        <label class="segment" for="playAsBlack">
+          <div class="stone-black"></div>
+          <span class="option">black</span>
+          <input checked type="radio"
+                 id="playAsBlack" value="black"
+                 formControlName="color">
+          <div class="indicator"></div>
+        </label>
       </div>
     </section>
 
@@ -52,27 +68,39 @@
       <div class="text">
         difficulty
       </div>
-      <div class="segments">
-        <div class="segment">
+      <div class="segments" [class.disabled]="!level.enabled">
+        <label for="levelEasy" class="segment">
           <div class="option-icon">
             <img class="icon" src="/assets/icon/level-easy.svg">
           </div>
           <span class="option">novice</span>
-        </div>
+          <input type="radio"
+                 id="levelEasy" value="easy"
+                 formControlName="level">
+          <div class="indicator"></div>
+        </label>
 
-        <div class="segment active">
+        <label for="levelMedium" class="segment">
           <div class="option-icon">
             <img class="icon" src="/assets/icon/level-medium.svg">
           </div>
           <span class="option">easy</span>
-        </div>
+          <input checked type="radio"
+                 id="levelMedium" value="medium"
+                 formControlName="level">
+          <div class="indicator"></div>
+        </label>
 
-        <div class="segment">
+        <label for="levelMaster" class="segment">
           <div class="option-icon">
             <img class="icon" src="/assets/icon/level-insane.svg">
           </div>
           <span class="option">insane</span>
-        </div>
+          <input type="radio"
+                 id="levelMaster" value="master"
+                 formControlName="level">
+          <div class="indicator"></div>
+        </label>
       </div>
     </section>
   </div>

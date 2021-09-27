@@ -1,56 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component } from '@angular/core';
 
-/** Modal */
-import { NewGameComponent } from '../../modal';
-import { GameOverWinComponent } from '../../modal';
-import { GameOverLoseComponent } from '../../modal';
+/** Model */
+import { GameService } from '../../provider/game.service';
 
 @Component({
   selector: 'gomoku-main',
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
 })
-export class MainPage implements OnInit {
+export class MainPage {
 
-  constructor(
-    private modalCtrl: ModalController
-  ) { }
+  constructor(public control: GameService) { }
 
-  ngOnInit() {
-  }
-
-  async create() {
-    const modal = await this.modalCtrl.create({
-      component: NewGameComponent,
-      cssClass: 'overlay-modal'
-    });
-
-    modal.onDidDismiss().then(({ data }) => {
-      if (!data) { return; }
-
-      console.log(data);
-    });
-
-    return await modal.present();
-  }
-
-  async win() {
-    const modal = await this.modalCtrl.create({
-      component: GameOverWinComponent,
-      cssClass: 'overlay-modal'
-    });
-
-    return await modal.present();
-  }
-
-  async lose() {
-    const modal = await this.modalCtrl.create({
-      component: GameOverLoseComponent,
-      cssClass: 'overlay-modal'
-    });
-
-    return await modal.present();
+  test() {
+    this.control.start();
   }
 
 }

@@ -1,3 +1,11 @@
-<p>
-  board works!
-</p>
+<div>
+  <div class="mark mark-1"></div>
+  <div class="mark mark-2"></div>
+  <div class="mark mark-3"></div>
+  <div class="mark mark-4"></div>
+  <div class="mark mark-5"></div>
+</div>
+
+<div *ngFor="let r of size" class="board-row">
+  <div *ngFor="let c of size" class="board-cell"></div>
+</div>

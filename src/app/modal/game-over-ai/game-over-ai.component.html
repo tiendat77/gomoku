@@ -1,0 +1,63 @@
+<div class="modal-container">
+  <div class="modal-title">
+    <div role="button" class="icon-button"></div>
+    <div class="modal-header"></div>
+    <div role="button" class="icon-button close-button" (click)="close()">
+      <ion-icon name="gomoku-close"></ion-icon>
+    </div>
+  </div>
+
+  <div class="modal-content game-over">
+    <ng-container [ngSwitch]="result">
+      <ng-container *ngSwitchCase="'win'" [ngTemplateOutlet]="win"></ng-container>
+      <ng-container *ngSwitchCase="'lose'" [ngTemplateOutlet]="lose"></ng-container>
+      <ng-container *ngSwitchDefault [ngTemplateOutlet]="draw"></ng-container>
+    </ng-container>
+
+    <ng-template #win>
+      <div class="game-result win">
+        <span>you win</span>
+      </div>
+
+      <div class="emotion">
+        <img src="/assets/icon/surprised.svg" >
+      </div>
+    </ng-template>
+
+    <ng-template #lose>
+      <div class="game-result lose">
+        <span>you lose</span>
+      </div>
+
+      <div class="emotion">
+        <img src="/assets/icon/confused.svg" >
+      </div>
+    </ng-template>
+
+    <ng-template #draw>
+      <div class="game-result draw">
+        <span>draw</span>
+      </div>
+
+      <div class="emotion">
+        <img src="/assets/icon/cool.svg" >
+      </div>
+    </ng-template>
+
+    <div class="difficulty" *ngIf="level">
+      <div class="text">
+        difficulty
+      </div>
+
+      <div class="chip">
+        <div class="level" [ngClass]="level">{{ mode }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-action">
+    <div role="button" class="raised-button modal-action-button" (click)="again()">
+      <span>again</span>
+    </div>
+  </div>
+</div>

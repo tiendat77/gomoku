@@ -11,8 +11,16 @@
   justify-content: flex-start;
 }
 
+.lose {
+  color: #757575;
+}
+
 .win {
   color: #e8de00;
+}
+
+.draw {
+  color: #af40e0;
 }
 
 .game-result {
@@ -48,7 +56,7 @@
 }
 
 .chip {
-  padding: 6px 40px;
+  padding: 2px 40px;
   text-align: center;
 
   border-radius: 50px;
@@ -61,14 +69,14 @@
   text-align: center;
 }
 
-.level.easy {
+.level.novice {
   color: #567df4;
 }
 
-.level.medium {
+.level.easy {
   color: #f4d356;
 }
 
-.level.insane {
+.level.master {
   color: #f45656;
 }

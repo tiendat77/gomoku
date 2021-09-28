@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-
-/** Model */
 import { GameService } from '../../provider/game.service';
 
 @Component({
@@ -12,7 +10,7 @@ export class MainPage {
 
   constructor(public control: GameService) { }
 
-  test() {
+  go() {
     this.control.start();
   }
 

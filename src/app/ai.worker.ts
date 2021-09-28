@@ -1,4 +1,8 @@
 /// <reference lib="webworker" />
+/**
+ * Author: Yujian Yao
+ * https://github.com/yyjhao/HTML5-Gomoku
+ */
 
 const boardBuf = new ArrayBuffer(255);
 const boardBufArr = new Uint8Array(boardBuf);
@@ -102,19 +106,21 @@ class AI {
     }
 
     this.scorequeue.sort(this.sortMove);
-    postMessage({'type': 'watch_complete'});
+    // postMessage({'type': 'watch_complete'});
   }
 
   move() {
-    postMessage({type: 'starting'});
+    postMessage({
+      type: 'starting'
+    });
 
-    this.cache = {};
+    const bestmove = [this.scorequeue[0].r, this.scorequeue[0].c];
 
     let alpha = -1 / 0;
     let beta = 1 / 0;
-    let bestmove = [this.scorequeue[0].r, this.scorequeue[0].c];
     let i = 20;
-    let tmp, tmpqueue = [];
+    let tmp;
+    let tmpqueue = [];
     let depth = this.depth;
 
     while (i--) {
@@ -129,13 +135,15 @@ class AI {
     let x, y, b = beta;
     x = tmpqueue[i];
     y = tmpqueue[--i];
+
     let score = -this.nega(x, y, depth, -b, -alpha);
 
     this.desimulate(x, y, depth % 2);
 
     if (score > alpha) {
       alpha = score;
-      bestmove = [x, y];
+      bestmove[0] = x;
+      bestmove[1] = y;
     }
 
     b = alpha + 1;
@@ -151,7 +159,8 @@ class AI {
       }
       if (score > alpha) {
         alpha = score;
-        bestmove = [x, y];
+        bestmove[0] = x;
+        bestmove[1] = y;
       }
       b = alpha + 1;
     }
@@ -166,13 +175,17 @@ class AI {
   sortMove(a, b) {
     if (a.set) return 1;
     if (b.set) return -1;
-    if (a.score < b.score) return 1;
-    return -1;
+
+    if (a.score < b.score) {
+      return 1;
+    } else {
+      return -1;
+    }
   }
 
   simulate(x, y, num) {
-    this._update(x, y, num);
     this.setNum++;
+    this._update(x, y, num);
   }
 
   desimulate(x, y, num) {
@@ -188,7 +201,6 @@ class AI {
     this.simulate(x, y, num);
 
     let bufstr = bufToString();
-
     if (this.cache[bufstr]) {
       return this.cache[bufstr];
     }
@@ -197,16 +209,15 @@ class AI {
 
     if (this.setNum === 225) {
       return 0;
-    }
-
-    if (depth === 0) {
+    } else if (depth === 0) {
       return this.sum;
     }
 
     this.scorequeue.sort(this.sortMove);
 
-    i = this.totry[num]
-    let tmp, tmpqueue = [];
+    i = this.totry[num];
+    let tmp;
+    let tmpqueue = [];
     let b = beta;
 
     while (i--) {
@@ -220,6 +231,7 @@ class AI {
     i = tmpqueue.length - 1;
     x = tmpqueue[i];
     y = tmpqueue[--i];
+
     let score = -this.nega(x, y, depth, -b, -alpha);
     this.desimulate(x, y, depth % 2);
 
@@ -254,6 +266,7 @@ class AI {
       }
       b = alpha + 1;
     }
+
     return alpha;
   }
 
@@ -262,10 +275,10 @@ class AI {
     let remove = false;
 
     if (color === this.color) {
-      num=1;
+      num = 1;
 
     } else if (color === this.otc) {
-      num=0;
+      num = 0;
 
     } else {
       remove = true;
@@ -273,29 +286,20 @@ class AI {
     }
 
     if (remove) {
-      this._update(r, c, num);
+      this._remove(r, c, num);
 
     } else {
-      this._remove(r, c, num);
+      this._update(r, c, num);
     }
   }
 
   _update(r, c, num) {
-    let coe = this.coe;
     let moves = this.moves;
+    let coe = this.coe;
     let scores = this.scores;
-
     let i = 4;
-    let x;
-    let y;
-    let step;
-    let tmp;
-    let xx;
-    let yy;
-    let cur;
-    let s;
-    let e;
-    let changes = 0;
+    let x, y, step, tmp, xx, yy, cur, changes = 0;
+    let s, e;
 
     boardBufArr[r * 15 + c] = num + 2;
     this.map[r][c].set = num + 1;
@@ -304,56 +308,45 @@ class AI {
       x = r;
       y = c;
       step = 5;
-
       while (step-- && x >= 0 && y >= 0 && y < 15) {
         xx = x - moves[i][0] * 4;
         yy = y - moves[i][1] * 4;
-
         if (xx >= 15 || yy < 0 || yy >= 15) {
           x += moves[i][0];
           y += moves[i][1];
           continue;
         }
-
         cur = this.map[x][y].info[i];
-
         if (cur[2] > 0) {
           tmp = 5;
           xx = x;
           yy = y;
           s = scores[cur[2]];
           changes -= s * cur[3];
-
-          while (tmp--){
+          while (tmp--) {
             this.map[xx][yy].score -= s;
             xx -= moves[i][0];
             yy -= moves[i][1];
           }
         }
-
         cur[num]++;
-
-        if (cur[1-num] > 0) {
+        if (cur[1 - num] > 0) {
           cur[2] = 0;
-
         } else {
           cur[2] = cur[num];
           e = coe[num];
           cur[3] = e;
           s = scores[cur[2]];
-
           tmp = 5;
           xx = x;
           yy = y;
           changes += s * cur[3];
-
-          while (tmp--){
+          while (tmp--) {
             this.map[xx][yy].score += s;
             xx -= moves[i][0];
             yy -= moves[i][1];
           }
         }
-
         x += moves[i][0];
         y += moves[i][1];
       }
@@ -363,23 +356,15 @@ class AI {
   }
 
   _remove(r, c, num) {
+    let moves = this.moves;
+    let coe = this.coe;
+    let scores = this.scores;
+    let i = 4;
+    let x, y, step, tmp, xx, yy, cur, changes = 0;
+    let s, e;
+
     boardBufArr[r * 15 + c] = 0;
     this.map[r][c].set = false;
-
-    let coe = this.coe;
-    let moves = this.moves;
-    let scores = this.scores;
-
-    let i = 4;
-    let x;
-    let y;
-    let step;
-    let tmp;
-    let xx;
-    let yy;
-    let cur;
-    let s;
-    let changes = 0;
 
     while (i--) {
       x = r;
@@ -388,56 +373,44 @@ class AI {
       //others 0 i am 1-> sc=0
       //others 0 i am more than 1-> sc=1
       //i am >0 others >0 -> sc=-1
-
-      while( step-- && x>=0 && y>=0 && y<15 ){
+      while (step-- && x >= 0 && y >= 0 && y < 15) {
         xx = x - moves[i][0] * 4;
         yy = y - moves[i][1] * 4;
-
         if (xx >= 15 || yy < 0 || yy >= 15) {
           x += moves[i][0];
           y += moves[i][1];
           continue;
         }
         cur = this.map[x][y].info[i];
-        let sc=0;
+        var sc = 0;
         cur[num]--;
-
         if (cur[2] > 0) {
           tmp = 5;
           xx = x;
           yy = y;
           s = scores[cur[2]];
           changes -= s * cur[3];
-
           while (tmp--) {
             this.map[xx][yy].score -= s;
             xx -= moves[i][0];
             yy -= moves[i][1];
           }
-
           cur[2]--;
-
-          if(cur[num]>0) {
-            sc=1;
-          }
-
-        } else if(cur[1-num] > 0 && !cur[num]) {
+          if (cur[num] > 0) sc = 1;
+        } else if (cur[1 - num] > 0 && !cur[num]) {
           sc = -1;
         }
-
         if (sc === 1) {
           tmp = 5;
           s = scores[cur[2]];
           xx = x;
           yy = y;
           changes += s * cur[3];
-
           while (tmp--) {
             this.map[xx][yy].score += s;
             xx -= moves[i][0];
             yy -= moves[i][1];
           }
-
         } else if (sc === -1) {
           cur[2] = cur[1 - num];
           tmp = 5;
@@ -446,14 +419,12 @@ class AI {
           xx = x;
           yy = y;
           changes += s * cur[3];
-
           while (tmp--) {
             this.map[xx][yy].score += s;
             xx -= moves[i][0];
             yy -= moves[i][1];
           }
         }
-
         x += moves[i][0];
         y += moves[i][1];
       }

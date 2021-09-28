@@ -22,7 +22,6 @@ export class AIPlayer extends Player {
 
       this.worker.onmessage = ({ data }) => {
         this.onMessage(data);
-        console.log('new message', data);
       };
 
       this.worker.postMessage({

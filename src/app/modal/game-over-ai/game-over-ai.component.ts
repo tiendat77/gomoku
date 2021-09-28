@@ -8,31 +8,12 @@ import { ModalController } from '@ionic/angular';
 })
 export class GameOverAiComponent {
 
-  @Input() mode;
   @Input() level;
   @Input() result = 'draw';
 
   constructor(
     private modalCtrl: ModalController
-  ) {
-    this.mode = this.getMode(this.level);
-  }
-
-  private getMode(level) {
-    switch (level) {
-      case 'easy':
-        return 'novice';
-
-      case 'medium':
-        return 'easy';
-
-      case 'insane':
-        return 'master'
-
-      default:
-        return null;
-    }
-  }
+  ) { }
 
   close() {
     this.modalCtrl.dismiss();

@@ -75,6 +75,9 @@ export class GameComponent implements OnDestroy, AfterViewInit {
       this.players['black'] = new HumanPlayer('black');
       this.players['white'] = new HumanPlayer('white');
 
+      this.places.setWarning('black', false);
+      this.places.setWarning('white', false);
+
     } else {
       const other = color === 'black' ? 'white' : 'black';
       this.players[other] = new AIPlayer(other, this.mode as Level);

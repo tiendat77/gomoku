@@ -17,7 +17,7 @@ export class GameService {
   message: string;
 
   config: GameConfig = {
-    mode: 'hvh',
+    mode: 'medium',
     color: 'white',
   };
 
@@ -48,10 +48,6 @@ export class GameService {
     this.message = message;
   }
 
-  test() {
-    this.over('black');
-  }
-
   async create() {
     const modal = await this.modalCtrl.create({
       component: NewGameComponent,
@@ -77,7 +73,7 @@ export class GameService {
    */
   async over(result) {
     const human = this.config.mode === 'hvh';
-    const level = !human ? this.config.mode : null;
+    const level = !human ? this._getLevel(this.config.mode) : null;
 
     const modal = await this.modalCtrl.create({
       component: human ? GameOverHumanComponent : GameOverAiComponent,
@@ -92,6 +88,22 @@ export class GameService {
     });
 
     return await modal.present();
+  }
+
+  private _getLevel(mode) {
+    switch (mode) {
+      case 'easy':
+        return 'novice';
+
+      case 'medium':
+        return 'easy';
+
+      case 'master':
+        return 'insane';
+
+      default:
+        return null;
+    }
   }
 
 }

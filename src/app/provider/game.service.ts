@@ -40,7 +40,7 @@ export class GameService {
   }
 
   undo() {
-    GameService.game.undo();
+    GameService.game.regret();
   }
 
   turn(color: Color, message: string) {

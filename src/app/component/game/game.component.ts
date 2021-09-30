@@ -8,6 +8,7 @@ import { GameService } from '../../provider/game.service';
 import { PlacesComponent } from '../places/places.component';
 
 import { HumanPlayer, AIPlayer } from '../../model';
+import { COLOUR, GRID, PLAYER } from '../../model/Gomoku';
 import { GamePlayers, Color, Level, Mode, Place, PlaceHistory } from '../../interface';
 
 @Component({
@@ -24,8 +25,8 @@ export class GameComponent implements OnDestroy, AfterViewInit {
   @HostBinding('class.playing') private playing = false;
 
   rounds = 0;
-
-  color: Color = 'black';
+  color: Color;
+  grid: number[][] = [];
   mode: Mode | Level = 'medium';
 
   players: GamePlayers = {
@@ -62,12 +63,14 @@ export class GameComponent implements OnDestroy, AfterViewInit {
       this.players['white']?.terminate();
     } catch(e) { }
 
-    this.mode = mode;
-    this.color = color;
-    this.places.clear();
-
     this.rounds = 0;
+    this.mode = mode;
     this.history = [];
+    this.color = color;
+
+    this.places.clear();
+    this.grid = GRID.map(row => row.slice());
+
     this.players['black'] = null;
     this.players['white'] = null;
 
@@ -79,11 +82,11 @@ export class GameComponent implements OnDestroy, AfterViewInit {
       this.places.setWarning('white', false);
 
     } else {
-      const other = color === 'black' ? 'white' : 'black';
+      const other = COLOUR[1 - PLAYER[color]];
       this.players[other] = new AIPlayer(other, this.mode as Level);
       this.players[color] = new HumanPlayer(color);
 
-      this.places.setWarning(other, true);
+      this.places.setWarning(COLOUR[other], true);
     }
   }
 
@@ -95,6 +98,7 @@ export class GameComponent implements OnDestroy, AfterViewInit {
   end(result: string) {
     this.playing = false;
     this.places.setPlaceable(false);
+    this.game.turn(null, 'Game over');
 
     if (result === 'draw') {
       return this.game.over('draw');
@@ -117,39 +121,43 @@ export class GameComponent implements OnDestroy, AfterViewInit {
     const player = this.players[this.color];
 
     if (player instanceof HumanPlayer) {
-      this.go(place, this.color);
+      this.go(place.r, place.c, this.color);
     }
   }
 
-  go(place: Place, color: Color) {
+  go(row: number, col: number, color: Color) {
     if (!this.playing) {
       return false;
     }
 
-    this.places.set(place, color);
-    this.history.push({
-      r: place.r,
-      c: place.c,
-      color
-    });
-
-    const result = this.places.result(place.r, place.c, color);
-
-    if (!result) {
-      this.update(place.r, place.c, color);
-
-    } else {
-      this.end(result);
+    if (this.grid[row][col] !== -1) {
+      return false;
     }
 
+    this.rounds++;
+    this.grid[row][col] = PLAYER[color];
+    this.places.set(row, col, color);
+    this.history.push({ row, col, color: PLAYER[color] });
+
+    const result = this.isWinningMove(row, col, PLAYER[color]);
+
+    if (result) {
+      this.end('over');
+      return true;
+    }
+
+    if (this.rounds === 255) {
+      this.end('draw');
+      return true;
+    }
+
+    this.update(row, col, color);
     return true;
   }
 
-  update(r: number, c: number, color: Color) {
-    this.rounds++;
-    this.places.update(r, c, color);
-    this.players['black'].watch(r, c, color);
-    this.players['white'].watch(r, c, color);
+  update(row: number, col: number, color: Color) {
+    this.players['black'].watch(row, col, color);
+    this.players['white'].watch(row, col, color);
     setTimeout(() => this.progress(), 10);
   }
 
@@ -162,64 +170,81 @@ export class GameComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  undo() {
-    if (!this.history.length) {
+  regret() {
+    if (this.mode !== 'hvh' && this.history.length === 1) {
       return;
     }
 
-    let last;
+    let last: PlaceHistory;
 
-    if (!this.playing) {
+    for (let i = 0; i < 2; i++) {
       last = this.history.pop();
-      this.places.unset({r: last.r, c: last.c});
-      this.players.black.watch(last.r, last.c, 'remove');
-      this.players.white.watch(last.r, last.c, 'remove');
-      return;
-    }
-
-    do {
-      if (!this.history.length) {
-        return;
+      if (last) {
+        this.grid[last.row][last.col] = -1;
+        this.places.unset(last.row, last.col);
+        this.players.white.watch(last.row, last.col, 'remove');
+        this.players.black.watch(last.row, last.col, 'remove');
       }
-
-      last = this.history.pop();
-      this.places.unset({r: last.r, c: last.c});
-      this.players.black.watch(last.r, last.c, 'remove');
-      this.players.white.watch(last.r, last.c, 'remove');
-
-    } while(this.players[last.color] instanceof AIPlayer);
+    }
 
     last = this.history[this.history.length - 1];
+    if (last) {
+      this.places.getPlace(last.row, last.col).highlight();
+      this.players[COLOUR[1 - last.color]].turn();
 
-    if (this.history.length > 0) {
-      this.places.getPlace(last.r, last.c).highlight();
     } else {
       this.places.unhighlight();
     }
 
-    const other = last.color === 'black' ? 'white' : 'black';
-    this.players[other].turn();
-
-    if (this.players['black'] instanceof AIPlayer && this.players['black'].computing) {
-      this.players['black'].cancel++;
-    }
-
-    if (this.players['white'] instanceof AIPlayer && this.players['white'].computing) {
-      this.players['white'].cancel++;
+    if (!this.playing) {
+      this.playing = true;
+      this.places.setPlaceable(true);
     }
   }
 
   turn(color: Color, placeable = false) {
-    this.setColor(color);
+    this.color = color;
     this.places.setColor(color);
     this.places.setPlaceable(placeable);
   }
 
-  setColor(color: Color) {
-    this.color = color;
+  /** Helpers */
+  private isWinningMove(row, col, player) {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (i == 0 && j == 0) continue;
+        let cnt = 1;
+
+        for (let dir = -1; dir <= 1; dir+=2) {
+          for (let l = 1; l <= 4; l++) {
+            let newrow = row + dir * i * l;
+            let newcol = col + dir * j * l;
+
+            if (this.isInBoard(newrow, newcol) && player == this.grid[newrow][newcol]) {
+              cnt++;
+            } else {
+              break;
+            }
+
+            if (cnt == 5) {
+              return true;
+            }
+          }
+        }
+
+        if (cnt >= 5) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
-  /** Helpers */
+  private isInBoard(row, col) {
+    return row >= 0 && col >= 0 && row < 15 && col < 15;
+  }
+
   private getElement() {
     return this.elementRef.nativeElement as HTMLElement;
   }

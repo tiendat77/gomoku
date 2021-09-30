@@ -1,4 +1,5 @@
 import { Player } from './Player';
+import { LEVEL, PLAYER } from './Gomoku';
 import { Color, Level } from '../interface';
 import { GameService } from '../provider/game.service';
 
@@ -7,7 +8,6 @@ export class AIPlayer extends Player {
   level: Level;
   worker: Worker;
 
-  cancel = 0;
   computing = false;
 
   constructor(color: Color, level: Level) {
@@ -26,8 +26,8 @@ export class AIPlayer extends Player {
 
       this.worker.postMessage({
         type: 'ini',
-        mode: this.level,
-        color: this.color
+        mode: LEVEL[this.level],
+        color: PLAYER[this.color]
       });
     } else {
       // Web workers are not supported in this environment.
@@ -39,11 +39,11 @@ export class AIPlayer extends Player {
     this.worker?.terminate();
   }
 
-  watch(r: number, c: number, color: Color) {
+  watch(row: number, col: number, color: Color) {
     this.worker.postMessage({
-      r,
-      c,
-      color,
+      row,
+      col,
+      color: PLAYER[color],
       type: 'watch',
     });
   }
@@ -57,7 +57,7 @@ export class AIPlayer extends Player {
   private onMessage(data) {
     switch (data.type) {
       case 'decision':
-        this.go(data.r, data.c);
+        this.go(data.row, data.col);
         break;
 
       case 'starting':
@@ -69,15 +69,9 @@ export class AIPlayer extends Player {
     }
   }
 
-  private go(r: number, c: number) {
+  private go(row: number, col: number) {
     this.computing = false;
-
-    if (this.cancel > 0) {
-      this.cancel--;
-      return false;
-    }
-
-    return GameService.game.go({r, c}, this.color);
+    return GameService.game.go(row, col, this.color);
   }
 
   private first() {
@@ -96,7 +90,7 @@ export class AIPlayer extends Player {
     while(true) {
       const index = Math.floor(Math.random() * moves.length);
 
-      if(this.go(moves[index][0], moves[index][1])){
+      if (this.go(moves[index][0], moves[index][1])){
         return;
       }
 

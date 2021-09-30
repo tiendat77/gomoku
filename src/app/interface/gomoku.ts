@@ -27,7 +27,7 @@ export interface PlaceMap {
 }
 
 export interface PlaceHistory {
-  r: number;
-  c: number;
-  color: Color;
+  row: number;
+  col: number;
+  color: number;
 }

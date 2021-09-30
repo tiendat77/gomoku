@@ -1,4 +1,4 @@
-import { Color } from '../interface';
+import { Color } from "../interface";
 
 export abstract class Player {
 
@@ -11,7 +11,7 @@ export abstract class Player {
 
   abstract turn();
 
-  abstract watch(r: number, c: number, color);
+  abstract watch(row, c, color);
 
   abstract terminate();
 

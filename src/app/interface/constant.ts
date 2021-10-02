@@ -1,4 +1,4 @@
-import { Color } from '../interface';
+import { Color } from '.';
 
 export const COLOUR: Color[] = [
   'black',

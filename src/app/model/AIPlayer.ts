@@ -1,5 +1,5 @@
 import { Player } from './Player';
-import { LEVEL, PLAYER } from './Gomoku';
+import { LEVEL, PLAYER } from '../interface/constant';
 import { Color, Level } from '../interface';
 import { GameService } from '../provider/game.service';
 
@@ -7,18 +7,18 @@ export class AIPlayer extends Player {
 
   level: Level;
   worker: Worker;
-
   computing = false;
 
   constructor(color: Color, level: Level) {
     super(color);
     this.level = level;
-    this.initWorker();
+
+    this.init();
   }
 
-  initWorker() {
+  init() {
     if (typeof Worker !== 'undefined') {
-      this.worker = new Worker(new URL('../ai.worker', import.meta.url));
+      this.worker = new Worker(new URL('../ai/ai.worker', import.meta.url));
 
       this.worker.onmessage = ({ data }) => {
         this.onMessage(data);
@@ -51,22 +51,23 @@ export class AIPlayer extends Player {
   turn() {
     GameService.game.turn(this.color, false);
     GameService.instance.turn(this.color, 'Thinking...');
+
     this.move();
   }
 
-  private onMessage(data) {
-    switch (data.type) {
-      case 'decision':
-        this.go(data.row, data.col);
-        break;
-
-      case 'starting':
-        this.computing = true;
-        break;
-
-      default:
-        console.log(data);
+  private move() {
+    if (GameService.game.rounds === 0) {
+      // go at the center of the table
+      return this.first();
     }
+
+    if (GameService.game.rounds === 1) {
+      return this.second();
+    }
+
+    this.worker.postMessage({
+      type: 'compute'
+    });
   }
 
   private go(row: number, col: number) {
@@ -75,6 +76,10 @@ export class AIPlayer extends Player {
   }
 
   private first() {
+    this.go(7, 7);
+  }
+
+  private second() {
     const moves = [
       [6,6],
       [6,7],
@@ -98,19 +103,19 @@ export class AIPlayer extends Player {
     }
   }
 
-  private move() {
-    if (GameService.game.rounds === 0) {
-      // go at the center of the table
-      return this.go(7, 7);
-    }
+  private onMessage(data) {
+    switch (data.type) {
+      case 'decision':
+        this.go(data.row, data.col);
+        break;
 
-    if (GameService.game.rounds === 1) {
-      return this.first();
-    }
+      case 'starting':
+        this.computing = true;
+        break;
 
-    this.worker.postMessage({
-      type: 'compute'
-    });
+      default:
+        console.log(data);
+    }
   }
 
 }

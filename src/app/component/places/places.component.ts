@@ -18,12 +18,7 @@ export class PlacesComponent {
   @ViewChildren(GoComponent) protected places: QueryList<GoComponent>;
 
   readonly size = new Array(15).fill(0).map((value, index) => index);
-
   protected placeable = false;
-  protected warnings = {
-    black: false,
-    white: false
-  };
 
   constructor(
     private elementRef: ElementRef
@@ -52,6 +47,10 @@ export class PlacesComponent {
     }
   }
 
+  unblur() {
+    this.places.forEach(place => place.unBlur());
+  }
+
   getPlace(row: number, col: number) {
     return this.places.get(row * 15 + col);
   }
@@ -72,24 +71,6 @@ export class PlacesComponent {
       this.placeable = false;
       this.getElement().classList.remove('placeable');
     }
-  }
-
-  setWarning(color: Color, shouldWarn: boolean) {
-    this.warnings[color] = !!shouldWarn;
-  }
-
-  warning(row: number, col: number, dir: number, color: Color) {
-    if (!this.warnings[color]) {
-      return;
-    }
-
-    // TODO
-    // if (this.map[color][dir][row][col] > 4) {
-    //   this.getPlace(row, col).warn();
-
-    // } else {
-    //   this.getPlace(row, col).unWarn();
-    // }
   }
 
   onSet(place: Place) {

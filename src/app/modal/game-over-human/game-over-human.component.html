@@ -8,13 +8,30 @@
   </div>
 
   <div class="modal-content game-over">
-    <div class="game-result win">
-      <span>{{result}} win</span>
-    </div>
+    <ng-container [ngSwitch]="result">
+      <ng-container *ngSwitchCase="'draw'" [ngTemplateOutlet]="draw"></ng-container>
+      <ng-container *ngSwitchDefault [ngTemplateOutlet]="win"></ng-container>
+    </ng-container>
 
-    <div class="emotion">
-      <img src="/assets/icon/shocked.svg" >
-    </div>
+    <ng-template #win>
+      <div class="game-result win">
+        <span>{{result}} win</span>
+      </div>
+
+      <div class="emotion">
+        <img src="/assets/icon/shocked.svg" >
+      </div>
+    </ng-template>
+
+    <ng-template #draw>
+      <div class="game-result draw">
+        <span>draw</span>
+      </div>
+
+      <div class="emotion">
+        <img src="/assets/icon/cool.svg" >
+      </div>
+    </ng-template>
   </div>
 
   <div class="modal-action">

@@ -4,6 +4,7 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +23,7 @@ import { ModalModule } from './modal/modal.module';
     ModalModule,
   ],
   providers: [
+    NativeAudio,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

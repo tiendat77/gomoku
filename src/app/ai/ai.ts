@@ -1,435 +1,259 @@
+import * as lodash from 'lodash';
+
 /**
- * Author: Yujian Yao
- * https://github.com/yyjhao/HTML5-Gomoku
+ * Base-on: Zhiming Guo
+ * https://github.com/zhming0/gobang
  */
 
-const boardBuf = new ArrayBuffer(255);
-const boardBufArr = new Uint8Array(boardBuf);
+export class AI {
 
-function bufToString(){
-  return String.fromCharCode.apply(null, boardBufArr);
-}
+  rules = [];
+  maxList = [0x7fffffff + 1];
 
-class MapPoint {
-  r = 0;
-  c = 0;
-  score = 0;
-  set = false;
-  valid = false;
-  info = [
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0],
-  ];
+  player: number;
+  hardness: number;
 
-  constructor(r, c) {
-    this.r = r;
-    this.c = c;
-  }
-}
-
-class AI {
-
-  color;
-  otc;
-
-  depth;
-  totry;
-
-  cache = {};
-
-  sum = 0;
-  setNum = 0;
-  scoreMap = [];
-  scorequeue = [];
-
-  map = [];
-
-  moves = [
-    [-1, -1],
-    [-1, 0],
-    [0, -1],
-    [-1, 1]
-  ];
-  coe = [-2, 1];
-  scores = [0, 1, 10, 2000, 4000, 100000000000];
+  grid: number[][] = [];
 
   constructor() {
+    this._init();
+  }
+
+  private _init() {
+    for (var i = 1; i < 8; i++) {
+      this.maxList.push(this.maxList[i - 1] / 8);
+    }
+
     for (let i = 0; i < 15; i++) {
-      const tmp=[];
-      for(let j = 0; j < 15; j++) {
-        const a = new MapPoint(i, j);
-        tmp.push(a);
+      this.grid[i] = new Array(15);
+      for (let j = 0; j < 15; j++) {
+        this.grid[i][j] = -1;
+      }
+    }
 
-        this.scorequeue.push(a);
+    this.rules[0] = this.genRules(0);
+    this.rules[1] = this.genRules(1);
+  }
+
+  init(player, hardness) {
+    this.player = player;
+    this.hardness = hardness;
+  }
+
+  watch(row, col, player) {
+    this.grid[row][col] = player;
+  }
+
+  play(grid = this.grid, crtPlayer = this.player, depth = this.hardness, maxChance?) {
+    if (depth == 0) {
+      return [this.chance(grid, crtPlayer), null];
+    }
+
+    let row = grid.length;
+    let col = grid[0].length;
+
+    const notAlone = function(grid, r, c) {
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          let newi = i + r;
+          let newj = j + c;
+
+          if (newi < 0 || newj < 0 || newi >= grid.length || newj >= grid[0].length) {
+            continue;
+          }
+          if ((i != 0 || j != 0) && (grid[i + r][j + c] == 0 || grid[i + r][j + c] == 1)) {
+            return true;
+          }
+        }
       }
 
-      this.map.push(tmp);
-    }
-  }
-
-  init(mode, color) {
-    this.color = color;
-    this.otc = color === 'black' ? 'white' : 'black';
-
-    switch (mode) {
-      case 'easy':
-        this.depth = 3;
-        this.totry = [30, 30];
-        break;
-
-      case 'medium':
-        this.depth = 5;
-        this.totry = [12, 8];
-        break;
-
-      case 'master':
-        this.depth = 7;
-        this.totry = [10, 10];
-        break;
-
-      default:
-        console.error(mode + ' not supported');
-        break;
-    }
-  }
-
-  watch(r, c, color) {
-    this.update(r, c, color);
-
-    if (color === 'remove') {
-      this.setNum--;
-    } else {
-      this.setNum++;
+      return false;
     }
 
-    this.scorequeue.sort(this.sortMove);
-    // postMessage({'type': 'watch_complete'});
+    let ret: any = [-0x7fffffff * 100, null];
+
+    for (let i = 0; i < row; i++) {
+      for (let j = 0; j < col; j++) {
+        if (grid[i][j] != -1) continue;
+
+        if (!notAlone(grid, i, j)) continue;
+
+        grid[i][j] = crtPlayer;
+
+        if (depth != 1) {
+          if (this.isOver(grid, [i, j])) {
+            grid[i][j] = -1;
+            return [0x7fffffff * 10, [i, j]];
+          }
+        }
+
+        const enm_ret = this.play(grid, this.switchPlayer(crtPlayer), depth - 1, -ret[0]);
+        grid[i][j] = -1;
+
+        const enm_cs = -enm_ret[0];
+
+        if (maxChance && enm_cs > maxChance) {
+          return [enm_cs, [i, j]];
+        }
+
+        if (enm_cs > ret[0]) {
+          ret = [enm_cs, [i, j]];
+        } else if (enm_cs == ret[0] && Math.random() < 0.5) {
+          ret = [enm_cs, [i, j]];
+        }
+      }
+    }
+
+    return ret;
   }
 
-  move() {
-    postMessage({
-      type: 'starting'
+  private switchPlayer(crt) {
+    return 1 - crt;
+  }
+
+  private genRules(crt) {
+    const otr = this.switchPlayer(crt);
+    return [
+      [[crt, 5, 0], this.maxList[0]],
+      [[crt, 5, 1], this.maxList[0]],
+      [[crt, 5, 2], this.maxList[0]],
+      [[otr, 5, 0], -this.maxList[1]],
+      [[otr, 5, 1], -this.maxList[1]],
+      [[otr, 5, 2], -this.maxList[1]],
+      [[crt, 4, 1], this.maxList[2]],
+      [[crt, 4, 2], this.maxList[2]],
+      [[otr, 4, 2], -this.maxList[3]],
+      [[crt, 3, 2], this.maxList[4]],
+      [[otr, 3, 2], -this.maxList[5]],
+      [[otr, 4, 1], -this.maxList[5]],
+      [[crt, 2, 2], this.maxList[6]],
+      [[crt, 3, 1], this.maxList[6]],
+      [[otr, 2, 2], -this.maxList[6]],
+      [[otr, 3, 1], -this.maxList[6]],
+      [[crt, 2, 1], this.maxList[7]],
+      [[otr, 2, 1], -this.maxList[7]],
+    ];
+  };
+
+  private orgs(grid) {
+    const row = grid.length;
+    const col = grid[0].length;
+    return [
+      [lodash.map(lodash.range(0, col), function(v) {return [0, v];}),
+      [[1, 0], [1, 1], [1, -1]]],
+      [lodash.map(lodash.range(0, col), function(v) {return [row - 1, v];}),
+      [[-1, 1], [-1, -1]]],
+      [lodash.map(lodash.range(0, row), function(v) {return [v, 0];}),
+      [[0, 1]]]
+    ];
+  }
+
+  private getRow(grid, org, dir) {
+    let row = grid.length;
+    let col = grid[0].length;
+    let i = org[0];
+    let j = org[1];
+    let ret = [[]];
+    let cnt = 0;
+
+    while (i < row && j < col && i >= 0 && j >= 0) {
+      if (lodash.isEmpty(ret[cnt]) || lodash.last(ret[cnt]) == grid[i][j])
+        ret[cnt].push(grid[i][j]);
+      else {
+        cnt += 1;
+        ret[cnt] = [];
+        ret[cnt].push(grid[i][j]);
+      }
+
+      i += dir[0];
+      j += dir[1];
+    }
+
+    return ret;
+  }
+
+  private calcState(grid) {
+    const ret = {};
+
+    const createOrIncrease = function(ctr, l, h) {
+      if (!ret[ctr]) ret[ctr] = {};
+      if (!ret[ctr][l]) ret[ctr][l] = {};
+      if (!ret[ctr][l][h])
+        ret[ctr][l][h] = 1;
+      else
+        ret[ctr][l][h]++;
+    }
+
+    const that = this;
+
+    lodash.each(this.orgs(grid), function(org) {
+      for (let i = 0; i < org[0].length; i++) { // orgs
+        for (let j = 0; j < org[1].length; j++) {  // dirs
+          let rows = that.getRow(grid, org[0][i], org[1][j]);
+          for (let k = 0; k < rows.length; k++) {
+            if (rows[k][0] == -1 || rows[k].length < 2) continue;
+            let head = 0;
+            if (k != 0 && rows[k - 1][0] == -1) head += 1;
+            if (k != rows.length - 1 && rows[k + 1][0] == -1) head += 1;
+            createOrIncrease(rows[k][0], rows[k].length, head);
+          }
+        }
+      }
     });
 
-    const bestmove = [this.scorequeue[0].r, this.scorequeue[0].c];
+    return ret;
+  }
 
-    let alpha = -1 / 0;
-    let beta = 1 / 0;
-    let i = 20;
-    let tmp;
-    let tmpqueue = [];
-    let depth = this.depth;
+  private chance(grid, crt) {
+    let state = this.calcState(grid);
+    let getInState = function(r) {
+      let tmp = state[r[0]];
+      if (!tmp) return 0;
+      tmp = tmp[r[1]];
+      if (!tmp) return 0;
+      tmp = tmp[r[2]];
+      if (!tmp) return 0;
+      return tmp;
+    };
 
-    while (i--) {
-      tmp = this.scorequeue[i];
-      if (tmp.score.set) continue;
-      tmpqueue.push(tmp.c);
-      tmpqueue.push(tmp.r);
-    }
+    let ret = 0;
 
-    i = tmpqueue.length - 1;
-
-    let x, y, b = beta;
-    x = tmpqueue[i];
-    y = tmpqueue[--i];
-
-    let score = -this.nega(x, y, depth, -b, -alpha);
-
-    this.desimulate(x, y, depth % 2);
-
-    if (score > alpha) {
-      alpha = score;
-      bestmove[0] = x;
-      bestmove[1] = y;
-    }
-
-    b = alpha + 1;
-
-    while (i--) {
-      x = tmpqueue[i];
-      y = tmpqueue[--i];
-      score = -this.nega(x, y, depth, -b, -alpha);
-      this.desimulate(x, y, depth % 2);
-      if (alpha < score && score < beta) {
-        score = -this.nega(x, y, depth, -beta, -alpha);
-        this.desimulate(x, y, depth % 2);
-      }
-      if (score > alpha) {
-        alpha = score;
-        bestmove[0] = x;
-        bestmove[1] = y;
-      }
-      b = alpha + 1;
-    }
-
-    postMessage({
-      type: 'decision',
-      r: bestmove[0],
-      c: bestmove[1]
+    lodash.each(this.rules[crt], function(rule) {
+      ret += getInState(rule[0]) * rule[1];
     });
+
+    return ret;
   }
 
-  sortMove(a, b) {
-    if (a.set) return 1;
-    if (b.set) return -1;
+  private isOver(grid, cell) {
+    let dirs = [
+      [0, 1], [1, 0],
+      [1, 1], [-1, 1]
+    ];
+    let crt = grid[cell[0]][cell[1]];
+    let row = grid.length;
+    let col = grid[0].length;
 
-    if (a.score < b.score) {
-      return 1;
+    const rets = lodash.map(dirs, function(dir) {
+      let cnt = 1;
+      for (let i = -1; i <= 1; i += 2) {
+        let sy = cell[0] + i * dir[0];
+        let sx = cell[1] + i * dir[1];
+
+        while (sy < row && sy >= 0 && sx < col && sx >=0 && grid[sy][sx] == crt) {
+          cnt++;
+          sy += i * dir[0];
+          sx += i * dir[1];
+        }
+      }
+      return cnt;
+    });
+
+    if (lodash.max(rets) >= 5) {
+      return true;
     } else {
-      return -1;
+      return false;
     }
-  }
-
-  simulate(x, y, num) {
-    this.setNum++;
-    this._update(x, y, num);
-  }
-
-  desimulate(x, y, num) {
-    this._remove(x, y, num);
-    this.setNum--;
-  }
-
-  nega(x, y, depth, alpha, beta) {
-    let pt = this.map[x][y].info;
-    let i = 4;
-    let num = depth % 2;
-
-    this.simulate(x, y, num);
-
-    let bufstr = bufToString();
-    if (this.cache[bufstr]) {
-      return this.cache[bufstr];
-    }
-
-    if (Math.abs(this.sum) >= 10000000) return -1 / 0;
-
-    if (this.setNum === 225) {
-      return 0;
-    } else if (depth === 0) {
-      return this.sum;
-    }
-
-    this.scorequeue.sort(this.sortMove);
-
-    i = this.totry[num];
-    let tmp;
-    let tmpqueue = [];
-    let b = beta;
-
-    while (i--) {
-      tmp = this.scorequeue[i];
-      if (tmp.set) continue;
-      tmpqueue.push(tmp.c);
-      tmpqueue.push(tmp.r);
-    }
-
-    depth -= 1;
-    i = tmpqueue.length - 1;
-    x = tmpqueue[i];
-    y = tmpqueue[--i];
-
-    let score = -this.nega(x, y, depth, -b, -alpha);
-    this.desimulate(x, y, depth % 2);
-
-    if (score > alpha) {
-      bufstr = bufToString();
-      this.cache[bufstr] = score;
-      alpha = score;
-    }
-
-    if (alpha >= beta) {
-      bufstr = bufToString();
-      this.cache[bufstr] = beta;
-      return alpha;
-    }
-
-    b = alpha + 1;
-
-    while (i--) {
-      x = tmpqueue[i];
-      y = tmpqueue[--i];
-      score = -this.nega(x, y, depth, -b, -alpha);
-      this.desimulate(x, y, depth % 2);
-      if (alpha < score && score < beta) {
-        score = -this.nega(x, y, depth, -beta, -alpha);
-        this.desimulate(x, y, depth % 2);
-      }
-      if (score > alpha) {
-        alpha = score;
-      }
-      if (alpha >= beta) {
-        return alpha;
-      }
-      b = alpha + 1;
-    }
-
-    return alpha;
-  }
-
-  update(r, c, color) {
-    let num;
-    let remove = false;
-
-    if (color === this.color) {
-      num = 1;
-
-    } else if (color === this.otc) {
-      num = 0;
-
-    } else {
-      remove = true;
-      num = this.map[r][c].set - 1;
-    }
-
-    if (remove) {
-      this._remove(r, c, num);
-
-    } else {
-      this._update(r, c, num);
-    }
-  }
-
-  _update(r, c, num) {
-    let moves = this.moves;
-    let coe = this.coe;
-    let scores = this.scores;
-    let i = 4;
-    let x, y, step, tmp, xx, yy, cur, changes = 0;
-    let s, e;
-
-    boardBufArr[r * 15 + c] = num + 2;
-    this.map[r][c].set = num + 1;
-
-    while (i--) {
-      x = r;
-      y = c;
-      step = 5;
-      while (step-- && x >= 0 && y >= 0 && y < 15) {
-        xx = x - moves[i][0] * 4;
-        yy = y - moves[i][1] * 4;
-        if (xx >= 15 || yy < 0 || yy >= 15) {
-          x += moves[i][0];
-          y += moves[i][1];
-          continue;
-        }
-        cur = this.map[x][y].info[i];
-        if (cur[2] > 0) {
-          tmp = 5;
-          xx = x;
-          yy = y;
-          s = scores[cur[2]];
-          changes -= s * cur[3];
-          while (tmp--) {
-            this.map[xx][yy].score -= s;
-            xx -= moves[i][0];
-            yy -= moves[i][1];
-          }
-        }
-        cur[num]++;
-        if (cur[1 - num] > 0) {
-          cur[2] = 0;
-        } else {
-          cur[2] = cur[num];
-          e = coe[num];
-          cur[3] = e;
-          s = scores[cur[2]];
-          tmp = 5;
-          xx = x;
-          yy = y;
-          changes += s * cur[3];
-          while (tmp--) {
-            this.map[xx][yy].score += s;
-            xx -= moves[i][0];
-            yy -= moves[i][1];
-          }
-        }
-        x += moves[i][0];
-        y += moves[i][1];
-      }
-    }
-
-    this.sum += changes;
-  }
-
-  _remove(r, c, num) {
-    let moves = this.moves;
-    let coe = this.coe;
-    let scores = this.scores;
-    let i = 4;
-    let x, y, step, tmp, xx, yy, cur, changes = 0;
-    let s, e;
-
-    boardBufArr[r * 15 + c] = 0;
-    this.map[r][c].set = false;
-
-    while (i--) {
-      x = r;
-      y = c;
-      step = 5;
-      //others 0 i am 1-> sc=0
-      //others 0 i am more than 1-> sc=1
-      //i am >0 others >0 -> sc=-1
-      while (step-- && x >= 0 && y >= 0 && y < 15) {
-        xx = x - moves[i][0] * 4;
-        yy = y - moves[i][1] * 4;
-        if (xx >= 15 || yy < 0 || yy >= 15) {
-          x += moves[i][0];
-          y += moves[i][1];
-          continue;
-        }
-        cur = this.map[x][y].info[i];
-        var sc = 0;
-        cur[num]--;
-        if (cur[2] > 0) {
-          tmp = 5;
-          xx = x;
-          yy = y;
-          s = scores[cur[2]];
-          changes -= s * cur[3];
-          while (tmp--) {
-            this.map[xx][yy].score -= s;
-            xx -= moves[i][0];
-            yy -= moves[i][1];
-          }
-          cur[2]--;
-          if (cur[num] > 0) sc = 1;
-        } else if (cur[1 - num] > 0 && !cur[num]) {
-          sc = -1;
-        }
-        if (sc === 1) {
-          tmp = 5;
-          s = scores[cur[2]];
-          xx = x;
-          yy = y;
-          changes += s * cur[3];
-          while (tmp--) {
-            this.map[xx][yy].score += s;
-            xx -= moves[i][0];
-            yy -= moves[i][1];
-          }
-        } else if (sc === -1) {
-          cur[2] = cur[1 - num];
-          tmp = 5;
-          s = scores[cur[2]];
-          cur[3] = coe[1 - num];
-          xx = x;
-          yy = y;
-          changes += s * cur[3];
-          while (tmp--) {
-            this.map[xx][yy].score += s;
-            xx -= moves[i][0];
-            yy -= moves[i][1];
-          }
-        }
-        x += moves[i][0];
-        y += moves[i][1];
-      }
-    }
-
-    this.sum += changes;
   }
 
 }

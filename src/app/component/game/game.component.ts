@@ -5,10 +5,11 @@ import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { GameService } from '../../provider/game.service';
+import { AudioService } from '../../provider/audio.service';
 import { PlacesComponent } from '../places/places.component';
 
 import { HumanPlayer, AIPlayer } from '../../model';
-import { COLOUR, GRID, PLAYER } from '../../model/Gomoku';
+import { COLOUR, GRID, PLAYER } from '../../interface/constant';
 import { GamePlayers, Color, Level, Mode, Place, PlaceHistory } from '../../interface';
 
 @Component({
@@ -40,6 +41,7 @@ export class GameComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     private game: GameService,
+    private audio: AudioService,
     private elementRef: ElementRef
   ) {
     this.game.init(this);
@@ -78,15 +80,10 @@ export class GameComponent implements OnDestroy, AfterViewInit {
       this.players['black'] = new HumanPlayer('black');
       this.players['white'] = new HumanPlayer('white');
 
-      this.places.setWarning('black', false);
-      this.places.setWarning('white', false);
-
     } else {
       const other = COLOUR[1 - PLAYER[color]];
       this.players[other] = new AIPlayer(other, this.mode as Level);
       this.players[color] = new HumanPlayer(color);
-
-      this.places.setWarning(COLOUR[other], true);
     }
   }
 
@@ -101,17 +98,21 @@ export class GameComponent implements OnDestroy, AfterViewInit {
     this.game.turn(null, 'Game over');
 
     if (result === 'draw') {
+      this.audio.play('applause');
       return this.game.over('draw');
     }
 
     if (this.mode === 'hvh') {
+      this.audio.play('win');
       return this.game.over(this.color);
     }
 
     if (this.players[this.color] instanceof HumanPlayer) {
+      this.audio.play('win');
       return this.game.over('win');
 
     } else {
+      this.audio.play('lose');
       return this.game.over('lose');
     }
   }
@@ -134,19 +135,21 @@ export class GameComponent implements OnDestroy, AfterViewInit {
       return false;
     }
 
+    this.audio.play('step');
+
     this.rounds++;
     this.grid[row][col] = PLAYER[color];
     this.places.set(row, col, color);
     this.history.push({ row, col, color: PLAYER[color] });
 
-    const result = this.isWinningMove(row, col, PLAYER[color]);
+    const result = this._result(row, col, PLAYER[color]);
 
     if (result) {
       this.end('over');
       return true;
     }
 
-    if (this.rounds === 255) {
+    if (this.rounds >= 255) {
       this.end('draw');
       return true;
     }
@@ -170,6 +173,12 @@ export class GameComponent implements OnDestroy, AfterViewInit {
     }
   }
 
+  turn(color: Color, placeable = false) {
+    this.color = color;
+    this.places.setColor(color);
+    this.places.setPlaceable(placeable);
+  }
+
   regret() {
     if (this.mode !== 'hvh' && this.history.length === 1) {
       return;
@@ -180,6 +189,7 @@ export class GameComponent implements OnDestroy, AfterViewInit {
     for (let i = 0; i < 2; i++) {
       last = this.history.pop();
       if (last) {
+        this.rounds--;
         this.grid[last.row][last.col] = -1;
         this.places.unset(last.row, last.col);
         this.players.white.watch(last.row, last.col, 'remove');
@@ -198,41 +208,44 @@ export class GameComponent implements OnDestroy, AfterViewInit {
 
     if (!this.playing) {
       this.playing = true;
+      this.places.unblur();
       this.places.setPlaceable(true);
     }
   }
 
-  turn(color: Color, placeable = false) {
-    this.color = color;
-    this.places.setColor(color);
-    this.places.setPlaceable(placeable);
-  }
-
   /** Helpers */
-  private isWinningMove(row, col, player) {
+  private _result(row, col, player) {
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
-        if (i == 0 && j == 0) continue;
-        let cnt = 1;
+        if (i == 0 && j == 0) {
+          continue;
+        }
 
-        for (let dir = -1; dir <= 1; dir+=2) {
+        let cnt = 1;
+        const line = [{row, col}];
+
+        for (let dir = -1; dir <= 1; dir += 2) {
           for (let l = 1; l <= 4; l++) {
             let newrow = row + dir * i * l;
             let newcol = col + dir * j * l;
 
-            if (this.isInBoard(newrow, newcol) && player == this.grid[newrow][newcol]) {
+            if (this._isInBoard(newrow, newcol) && player == this.grid[newrow][newcol]) {
               cnt++;
+              line.push({row: newrow, col: newcol});
+
             } else {
               break;
             }
 
-            if (cnt == 5) {
+            if (cnt === 5) {
+              this._highlight(line);
               return true;
             }
           }
         }
 
         if (cnt >= 5) {
+          this._highlight(line);
           return true;
         }
       }
@@ -241,23 +254,37 @@ export class GameComponent implements OnDestroy, AfterViewInit {
     return false;
   }
 
-  private isInBoard(row, col) {
+  private _isInBoard(row, col) {
     return row >= 0 && col >= 0 && row < 15 && col < 15;
   }
 
-  private getElement() {
+  private _highlight(line: any[]) {
+    this.places.unhighlight();
+
+    for (let i = 0; i < 15; i++) {
+      for (let j = 0; j < 15; j++) {
+        this.places.getPlace(i, j).blur();
+      }
+    }
+
+    for (const place of line) {
+      this.places.getPlace(place.row, place.col).unBlur();
+    }
+  }
+
+  private _getElement() {
     return this.elementRef.nativeElement as HTMLElement;
   }
 
   private _adjust() {
-    const parent = this.getElement().parentElement;
+    const parent = this._getElement().parentElement;
     const width = parent.clientWidth;
     const height = parent.clientHeight;
 
     const size = Math.min(width, height);
     const delta = size / 640;
 
-    const board = this.getElement();
+    const board = this._getElement();
     board.style.transform = `scale(${delta})`;
   }
 

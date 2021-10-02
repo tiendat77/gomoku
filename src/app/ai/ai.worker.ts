@@ -1,8 +1,8 @@
 /// <reference lib="webworker" />
 
-import { IDIOT } from './ai/idiot';
+import { AI } from './ai';
 
-const idiot = new IDIOT();
+const idiot = new AI();
 
 function decision() {
   const start = Date.now() / 1000;

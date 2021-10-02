@@ -1,5 +1,4 @@
 import { Player } from './Player';
-import { PLAYER } from './Gomoku';
 import { Color } from '../interface';
 import { GameService } from '../provider/game.service';
 

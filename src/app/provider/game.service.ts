@@ -13,8 +13,8 @@ import { GameOverHumanComponent } from '../modal';
 })
 export class GameService {
 
-  color: string;
-  message: string;
+  color;
+  message = 'Ready';
 
   config: GameConfig = {
     mode: 'medium',

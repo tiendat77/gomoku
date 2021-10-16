@@ -27,6 +27,7 @@
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/native-audio": "^5.36.0",
     "@ionic/angular": "^5.5.2",
+    "@ionic/storage": "^3.0.6",
     "@ionic/storage-angular": "^3.0.6",
     "@types/lodash": "^4.14.175",
     "gsap": "^3.8.0",

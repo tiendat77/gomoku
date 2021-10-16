@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewGameComponent } from './new-game/new-game.component';
 import { GameOverAiComponent } from './game-over-ai/game-over-ai.component';
 import { GameOverHumanComponent } from './game-over-human/game-over-human.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   imports: [
@@ -15,12 +16,14 @@ import { GameOverHumanComponent } from './game-over-human/game-over-human.compon
   exports: [
     NewGameComponent,
     GameOverAiComponent,
-    GameOverHumanComponent
+    GameOverHumanComponent,
+    SettingsComponent
   ],
   declarations: [
     NewGameComponent,
     GameOverAiComponent,
-    GameOverHumanComponent
+    GameOverHumanComponent,
+    SettingsComponent
   ]
 })
 export class ModalModule { }

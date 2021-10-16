@@ -1,0 +1,23 @@
+<div class="modal-container">
+  <div class="modal-title">
+    <div role="button" class="icon-button"></div>
+    <div class="modal-header">settings</div>
+    <div role="button" class="icon-button close-button" (click)="close()">
+      <ion-icon name="gomoku-close"></ion-icon>
+    </div>
+  </div>
+
+  <div class="modal-content settings">
+    <div class="seting-item" (click)="settings.toggleSound()">Sound</div>
+    <div class="seting-item" (click)="settings.toggleTimer()">Timer</div>
+    <!--
+      ion-select
+      Sound
+      Timer
+      Theme
+      Tutorial
+      Language
+      Share
+     -->
+  </div>
+</div>

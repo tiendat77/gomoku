@@ -1,0 +1,42 @@
+.close-button {
+  transform: translate(10px, -18px);
+}
+
+.modal-title {
+  margin-bottom: 12px;
+}
+
+.settings {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.seting-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  user-select: none;
+  padding: 10px 40px;
+  border-radius: 25px;
+  margin-bottom: 12px;
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(86, 125, 244, 0.05);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+}

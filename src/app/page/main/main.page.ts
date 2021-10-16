@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SettingsService } from 'src/app/provider';
 import { GameService } from '../../provider/game.service';
 
 @Component({
@@ -8,10 +9,17 @@ import { GameService } from '../../provider/game.service';
 })
 export class MainPage {
 
-  constructor(public control: GameService) { }
+  constructor(
+    public control: GameService,
+    public settings: SettingsService,
+  ) { }
 
   go() {
     this.control.start();
+  }
+
+  setting() {
+    this.settings.open();
   }
 
 }

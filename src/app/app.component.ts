@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { environment } from './../environments/environment';
 
 import { AudioService } from './provider';
+import { ConfettiService } from './provider';
 import { SettingsService } from './provider';
 import { StorageService } from './provider';
 import { SplashScreenService } from './provider';
@@ -18,19 +19,21 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private audio: AudioService,
+    private confetti: ConfettiService,
     private settings: SettingsService,
     private storage: StorageService,
     private splash: SplashScreenService,
   ) {
-    this.initialize();
+    this.platform.ready().then(() => {
+      this.initialize();
+    });
   }
 
   private initialize() {
-    this.platform.ready().then(() => {
-      this.splash.hide(environment.production ? 5 : 0);
-      this.prepareAudio();
-      this.prepareSetting();
-    });
+    this.splash.hide(environment.production ? 5 : 0);
+    this.confetti.create();
+    this.prepareAudio();
+    this.prepareSetting();
   }
 
   private prepareAudio() {

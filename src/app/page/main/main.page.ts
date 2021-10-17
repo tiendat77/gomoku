@@ -19,7 +19,8 @@ export class MainPage {
   }
 
   setting() {
-    this.settings.open();
+    this.control.over('win');
+    // this.settings.open();
   }
 
 }

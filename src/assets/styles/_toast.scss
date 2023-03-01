@@ -1,0 +1,12 @@
+@use 'node_modules/@ngneat/hot-toast/src/styles/styles.scss';
+
+.hot-toast-notification-panel {
+  padding: 0 !important;
+  box-shadow: none !important;
+  position: relative !important;
+  background-color: transparent !important;
+
+  .hot-toast-message {
+    margin: 0 !important;
+  }
+}

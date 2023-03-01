@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gomoku</title>
+  <base href="/">
+
+  <meta http-equiv="Cache-Control" content="max-age=0, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0" />
+
+  <meta name="theme-color" content="#010101">
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="msapplication-tap-highlight" content="no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="#010101"/>
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+  <link rel="stylesheet" href="assets/styles/loader.css">
+  <link rel="stylesheet" href="assets/styles/splash-screen.css">
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body class="light py-safe">
+  <splash-screen>
+    <svg class="w-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 250">
+      <path fill="#DD0031" d="M125 30L31.9 63.2l14.2 123.1L125 230l78.9-43.7 14.2-123.1z"/>
+      <path fill="#C3002F" d="M125 30v22.2-.1V230l78.9-43.7 14.2-123.1L125 30z"/>
+      <path fill="#FFFFFF" d="M125 52.1L66.8 182.6h21.7l11.7-29.2h49.4l11.7 29.2H183L125 52.1zm17 83.3h-34l17-40.9 17 40.9z"/>
+    </svg>
+    <div class="spinner">
+      <div class="bounce-1"></div>
+      <div class="bounce-2"></div>
+      <div class="bounce-3"></div>
+    </div>
+  </splash-screen>
+
+  <loader>
+    <div class="loader-backdrop"></div>
+    <div class="loader-wrapper">
+      <div class="loader-panel">
+        <div class="spinner">
+          <div class="bounce-1"></div>
+          <div class="bounce-2"></div>
+          <div class="bounce-3"></div>
+        </div>
+      </div>
+    </div>
+  </loader>
+
+  <app-root></app-root>
+
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
+</html>

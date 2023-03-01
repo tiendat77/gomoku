@@ -1,0 +1,19 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../out-tsc/lib",
+    "declarationMap": true,
+    "declaration": true,
+    "inlineSources": true,
+    "strictNullChecks": false,
+    "noImplicitOverride": false,
+    "types": [],
+    "lib": ["dom", "es2018"]
+  },
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "enableResourceInlining": true
+  },
+  "exclude": ["src/test.ts", "**/*.spec.ts", "src/app"]
+}

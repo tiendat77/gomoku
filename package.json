@@ -10,7 +10,7 @@
     "publish": "bash ./scripts/publish.sh",
     "test": "ng test",
     "prepare": "husky install",
-    "watch": "ng build --watch --configuration development"
+    "commit": "git-cz"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +41,7 @@
     "@angular/compiler-cli": "^15.1.0",
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/cz-commitlint": "^17.4.4",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.9",
@@ -49,6 +50,7 @@
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "chroma-js": "^2.4.2",
+    "commitizen": "^4.3.0",
     "eslint": "^8.34.0",
     "husky": "^8.0.3",
     "jasmine-core": "~4.5.0",
@@ -59,5 +61,10 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "tailwindcss": "^3.2.7",
     "typescript": "~4.9.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
   }
 }

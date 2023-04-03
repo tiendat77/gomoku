@@ -13,6 +13,7 @@ module.exports = {
         'docs',
         'feat',
         'fix',
+        'wip',
         'perf',
         'refactor',
         'revert',
@@ -45,6 +46,11 @@ module.exports = {
             description: 'A bug fix',
             title: 'Bug Fixes',
             emoji: '🐛',
+          },
+          wip: {
+            description: 'A work in progress',
+            title: 'WIP',
+            emoji: '🚧',
           },
           docs: {
             description: 'Documentation only changes',

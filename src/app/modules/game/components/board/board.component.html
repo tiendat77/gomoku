@@ -1,0 +1,42 @@
+<pan-zoom [config]="panZoomConfig">
+  <div class="inline-block relative box-border z-0">
+    <!-- TABLE -->
+    <div class="select-none pointer-events-none absolute top-0 left-0 w-full h-full -z-1">
+      <svg class="w-full h-full" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="#f7ead0" width="512" height="512" rx="32" ry="32"/>
+        <path fill="#d2a47b" d="m0 472v8c0 17.728 14.272 32 32 32h448c17.728 0 32-14.272 32-32v-8z"/>
+        <path fill="#f7ead0" d="m0 463v5c0 17.728 14.272 32 32 32h448c17.728 0 32-14.272 32-32v-5h-512z"/>
+      </svg>
+    </div>
+
+    <!-- GRID LINES -->
+    <div class="inline-block select-none pointer-events-none box-border p-10">
+      <div
+        *ngFor="let row of board"
+        class="grid grid-flow-col h-10 box-border border-amber-700 border-t last:border-b"
+      >
+        <div
+          *ngFor="let col of row"
+          class="inline-block w-10 h-10 box-border border-amber-700 border-l last:border-r"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- PIECES -->
+    <div class="inline-block box-border absolute top-5 left-5">
+      <div
+        *ngFor="let row of pieces"
+        class="grid grid-flow-col"
+      >
+        <div
+          *ngFor="let col of row"
+          class="inline-flex items-center justify-center w-10 h-10"
+        >
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</pan-zoom>

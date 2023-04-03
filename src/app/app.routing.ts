@@ -5,12 +5,16 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'example'
+    redirectTo: 'game'
   },
   {
     path: 'signed-in-redirect',
     pathMatch : 'full',
-    redirectTo: 'example'
+    redirectTo: 'game'
+  },
+  {
+    path: 'game',
+    loadChildren: () => import('./modules/game/game.module').then(m => m.GameModule)
   },
   {
     path: 'example',

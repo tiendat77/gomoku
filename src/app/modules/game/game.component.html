@@ -1,0 +1,60 @@
+<main class="flex-auto sm:container md:max-w-2xl mx-auto relative z-0">
+  <!-- Background -->
+  <div class="absolute top-0 -left-1/4 -z-1">
+    <img src="/assets/images/lotus-koi.png" alt="">
+  </div>
+
+  <!-- Header -->
+  <nav header class="flex items-center py-3 px-6 rounded-lg h-18 transition-all duration-250 ease-soft-in">
+    <div class="flex-1 text-left w-1/4"></div>
+
+    <div class="flex-auto text-center">
+      <h1 class="text-primary text-2xl font-black">gomoku</h1>
+    </div>
+
+    <div class="flex-1 text-right w-1/4">
+      <button class="daisy-btn text-primary daisy-btn-circle daisy-btn-ghost">
+        <icon name="heroicons_outline:cog"></icon>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Body -->
+  <div class="w-full flex flex-col gap-6 p-4 sm:p-6">
+    <!-- Game Status -->
+    <div class="rounded-lg px-4 py-3 bg-card shadow-sm flex items-center">
+      <div class="stone white"></div>
+      <div class="ml-4 font-medium">Your Turn</div>
+    </div>
+
+    <!-- Game Board -->
+    <div class="w-full overflow-hidden">
+      <div class="w-full aspect-square border">
+        <gomoku-board></gomoku-board>
+      </div>
+    </div>
+
+    <!-- Game Actions -->
+    <div class="flex items-center">
+      <div class="flex-1 text-left">
+        <button class="daisy-btn daisy-btn-primary daisy-btn-outline daisy-btn-circle">
+          <icon name="heroicons_outline:reply"></icon>
+        </button>
+      </div>
+
+      <div class="flex-1 text-center">
+        <button class="daisy-btn daisy-btn-primary daisy-btn-circle w-24">
+          go
+        </button>
+      </div>
+
+      <div class="flex-1 text-right">
+        <button class="daisy-btn daisy-btn-primary daisy-btn-outline daisy-btn-circle">
+          <icon name="heroicons_outline:star"></icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</main>
+

@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+nav[sticky] {
+  @apply sticky top-2 z-10 backdrop-saturate-200 backdrop-blur-xl bg-card bg-opacity-80 shadow;
+}
+
+.stone {
+  flex-shrink: 0;
+  user-select: none;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.stone.white {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(closest-corner at 30% 25%, #f8f8f8, #e3e3e3);
+}
+
+.stone.black {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(closest-corner at 30% 25%, #9a9a9a, #565656, #3c3c3c);
+}

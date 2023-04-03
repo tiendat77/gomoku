@@ -52,7 +52,7 @@ body loader .loader-panel {
   padding: 44px;
   overflow: hidden;
   border-radius: 12px;
-  background-color: #fff;
+  background-color: var(--bg-card);
   box-shadow:
     0 11px 15px -7px #0003,
     0 24px 38px 3px #00000024,
@@ -71,7 +71,7 @@ body loader .spinner {
 body loader .spinner>div {
   width: 12px;
   height: 12px;
-  background-color: #5a599e;
+  background-color: hsl(var(--p));
   border-radius: 100%;
   display: inline-block;
   -webkit-animation: splash-bounce-delay 1s infinite ease-in-out both;

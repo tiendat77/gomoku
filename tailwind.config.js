@@ -1,35 +1,5 @@
 const path = require('path');
-const colors = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
-
-// Generate at: https://uicolors.app
-const themes = {
-  primary: {
-    '50': '#f7f7f7',
-    '100': '#e3e3e3',
-    '200': '#c8c8c8',
-    '300': '#474747',
-    '400': '#333333',
-    '500': '#242424',
-    '600': '#171717',
-    '700': '#121212',
-    '800': '#0d0d0d',
-    '900': '#080808',
-    DEFAULT: '#242424',
-  },
-  'on-primary': {
-    500: '#ffffff',
-    DEFAULT: '#ffffff',
-  },
-  accent: {
-    ...colors.slate,
-    DEFAULT: colors.slate[800],
-  },
-  warn: {
-    ...colors.red,
-    DEFAULT: colors.red[600],
-  },
-};
 
 
 /** @type {import('tailwindcss').Config} */
@@ -79,8 +49,7 @@ module.exports = {
         '90': '22.5rem'
       },
       fontFamily: {
-        sans: `"Mulish", ${defaultTheme.fontFamily.sans.join(',')}`,
-        mono: `"IBM Plex Mono", ${defaultTheme.fontFamily.mono.join(',')}`
+        sans: `"Baloo 2", ${defaultTheme.fontFamily.sans.join(',')}`
       },
       extendedSpacing: {
         // Fractional values
@@ -108,6 +77,12 @@ module.exports = {
         '400': '100rem',
         '480': '120rem'
       },
+      width: {
+        '160': '40rem'
+      },
+      height: {
+        '160': '40rem'
+      },
       maxWidth: theme => ({
         'container': '1440px',
         ...theme('spacing'),
@@ -124,6 +99,9 @@ module.exports = {
       }),
       scrollMargin: {
         '45': '11.5rem'
+      },
+      aspectRatio: {
+        'square': '1/1',
       }
     }
   },
@@ -131,7 +109,6 @@ module.exports = {
     require(path.resolve(__dirname, 'tailwind/icon-size')),
     require(path.resolve(__dirname, 'tailwind/theming')),
     require(path.resolve(__dirname, 'tailwind/safe-area')),
-    require(path.resolve(__dirname, 'tailwind/colors'))({themes}),
 
     // DaisyUI
     require('daisyui'),
@@ -154,7 +131,7 @@ module.exports = {
     themes: [
       {
         default: {
-          primary: '#242424',
+          primary: '#146490',
           'primary-content': '#ffffff',
           secondary: '#1e293b',
           'secondary-content': '#ffffff',

@@ -1,13 +1,14 @@
-import { Player } from '@models';
-import { Color, Level } from '@models';
+import { Player } from './player.model';
+import { Color } from './color.model';
+import { Level } from './level.model'
 import { LEVEL, PLAYER } from '@constants';
-// import { GameService } from '../provider/game.service';
+import { Game } from './game.model';
 
 export class AIPlayer extends Player {
 
   level: Level;
-  override worker: Worker;
   computing = false;
+  override worker: Worker;
 
   constructor(color: Color, level: Level) {
     super(color);
@@ -49,21 +50,29 @@ export class AIPlayer extends Player {
   }
 
   turn() {
-    // GameService.game.turn(this.color, false);
+    Game.getInstance().turn(this.color, false);
     // GameService.instance.turn(this.color, 'Thinking...');
 
     this.move();
   }
 
-  private move() {
-    // if (GameService.game.rounds === 0) {
-    //   // go at the center of the table
-    //   return this.first();
-    // }
+  regret(row: number, col: number) {
+    this.worker.postMessage({
+      row,
+      col,
+      type: 'regret',
+    });
+  }
 
-    // if (GameService.game.rounds === 1) {
-    //   return this.second();
-    // }
+  move() {
+    if (Game.getInstance().rounds === 0) {
+      // go at the center of the table
+      return this.first();
+    }
+
+    if (Game.getInstance().rounds === 1) {
+      return this.second();
+    }
 
     this.worker.postMessage({
       type: 'compute'
@@ -72,8 +81,7 @@ export class AIPlayer extends Player {
 
   private go(row: number, col: number) {
     this.computing = false;
-    // return GameService.game.go(row, col, this.color);
-    return true;
+    return Game.getInstance().go(row, col, this.color);
   }
 
   private first() {

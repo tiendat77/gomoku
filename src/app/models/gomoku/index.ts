@@ -1,7 +1,10 @@
+export * from './board.model';
 export * from './color.model';
+export * from './game.model';
 export * from './level.model';
 export * from './mode.model';
+export * from './piece.model';
 export * from './place.model';
 export * from './player.model';
-// export * from './player-ai.model';
-// export * from './player-human.model';
+export * from './player-ai.model';
+export * from './player-human.model';

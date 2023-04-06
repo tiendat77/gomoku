@@ -1,12 +1,4 @@
-import { Color } from '@models';
-
-// export interface PlayerModel {
-//   color: Color;
-//   worker?: Worker;
-//   turn(): void;
-//   watch(row: number, col: number, color: Color): void;
-//   terminate(): void;
-// }
+import { Color } from './color.model';
 
 export abstract class Player {
   color: Color;
@@ -19,6 +11,7 @@ export abstract class Player {
   abstract turn(): void;
   abstract watch(row: number, col: number, color: Color): void;
   abstract terminate(): void;
+  abstract regret(row: number, col: number): void;
 }
 
 export interface GamePlayers {

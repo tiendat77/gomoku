@@ -1,5 +1,6 @@
-import { Player } from '@models';
-import { Color } from '@models';
+import { Player } from './player.model';
+import { Color } from './color.model';
+import { Game } from './game.model';
 
 export class HumanPlayer extends Player {
 
@@ -8,12 +9,11 @@ export class HumanPlayer extends Player {
   }
 
   watch(row: number, col: number, color: Color) { }
+  terminate() {}
+  regret(row: number, col: number) {}
 
   turn() {
-    // GameService.game.turn(this.color, true);
-    // GameService.instance.turn(this.color, 'Your turn');
+    Game.getInstance().turn(this.color, true);
   }
-
-  terminate() { }
 
 }

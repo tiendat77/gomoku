@@ -1,1 +1,3 @@
-export const PRIMARY_COLOR = '#242424';
+import { Color } from '../models/gomoku';
+
+export const COLOUR: Color[] = ['black', 'white'];

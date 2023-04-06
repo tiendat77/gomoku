@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { DEFAULT_AVATAR, PRIMARY_COLOR } from '@constants';
+import { DEFAULT_AVATAR } from '@constants';
 
 @Directive({
   selector: '[avatar]'
@@ -57,7 +57,7 @@ export class AvatarDirective {
     text.setAttribute('alignment-baseline', 'central');
     text.setAttribute('font-size', '128px');
     text.setAttribute('font-family', 'Ubuntu, sans-serif');
-    text.setAttribute('fill', PRIMARY_COLOR);
+    text.setAttribute('fill', `hsl(${getComputedStyle(document.documentElement).getPropertyValue('--p')})`);
     text.innerHTML = name;
 
     svg.appendChild(circle);

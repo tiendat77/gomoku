@@ -30,7 +30,7 @@
     <!-- Game Board -->
     <div class="w-full overflow-hidden">
       <div class="w-full aspect-square border">
-        <gomoku-board></gomoku-board>
+        <gomoku-board #board (onGo)="onGo($event)"></gomoku-board>
       </div>
     </div>
 
@@ -43,7 +43,10 @@
       </div>
 
       <div class="flex-1 text-center">
-        <button class="daisy-btn daisy-btn-primary daisy-btn-circle w-24">
+        <button
+          class="daisy-btn daisy-btn-primary daisy-btn-circle w-24"
+          (click)="start()"
+        >
           go
         </button>
       </div>

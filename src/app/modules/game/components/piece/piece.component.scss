@@ -1,0 +1,48 @@
+gomoku-piece {
+  width: 40px;
+  height: 40px;
+
+  flex-shrink: 0;
+  user-select: none;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+gomoku-piece.set {
+  transform: scale(0.9);
+  box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.2);
+}
+
+gomoku-piece.set.black {
+  background: radial-gradient(closest-corner at 30% 25%, #9a9a9a, #565656, #3c3c3c);
+}
+
+gomoku-piece.set.white {
+  background: radial-gradient(closest-corner at 30% 25%, #f8f8f8, #e3e3e3);
+}
+
+gomoku-piece.last-move.white {
+  box-shadow:
+    rgba(232, 232, 232, 0.5) 0px -2px 15px inset,
+    rgba(242, 242, 242, 0.4) -2px -1px 40px inset,
+    rgba(171, 171, 171, 0.5) 0px 0px 2px,
+    #fff 0px 0px 10px 3px;
+}
+
+gomoku-piece.last-move.black {
+  box-shadow:
+    rgba(255, 255, 255, 0.5) 0px -2px 15px inset,
+    rgba(10, 10, 10, 0.4) -2px -1px 40px inset,
+    rgba(0, 0, 0, 0.5) 0px 0px 2px,
+    rgba(255, 255, 255) 0px 0px 10px 3px;
+}
+
+gomoku-piece.warning {
+  background: rgba(255, 36, 66, 0.7);
+  box-shadow: rgba(255, 36, 66) 0px 0px 20px;
+}
+
+gomoku-piece.blur {
+  opacity: 0.5;
+  filter: none;
+}

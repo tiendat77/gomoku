@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, HostBinding, ViewChild } from '@angular/core';
-import { BoardComponent, PieceComponent } from './components';
+import { BoardComponent } from './components';
 import { Game, Place } from '@models';
 
 @Component({
@@ -10,7 +10,6 @@ import { Game, Place } from '@models';
 })
 export class GameComponent implements AfterViewInit {
 
-  // @ViewChild('places') places: PieceComponent;
   @ViewChild('board') board: BoardComponent;
   @HostBinding('class.playing') private playing = false;
 
@@ -33,18 +32,24 @@ export class GameComponent implements AfterViewInit {
   create() {
     this.board?.clear();
     this._game.setBoard(this.board);
+    this._game.create('easy');
   }
 
   start() {
     this.playing = true;
-    this.board?.clear();
-    this._game.setBoard(this.board);
-    this._game.create('easy');
     this._game?.start();
   }
 
-  onGo(place: Place) {
+  turn(place: Place) {
     this._game?.place(place);
+  }
+
+  undo() {
+    this._game?.regret();
+  }
+
+  setup() {
+
   }
 
 }

@@ -24,7 +24,6 @@ addEventListener('message', ({ data }) => {
       const ret = idiot.play();
       const end = Date.now() / 1000;
       console.log("AI Spent: " + (end - start) + " seconds.");
-      console.log(ret)
 
       postMessage({
         type: 'decision',

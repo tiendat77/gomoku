@@ -29,15 +29,18 @@
 
     <!-- Game Board -->
     <div class="w-full overflow-hidden">
-      <div class="w-full aspect-square border">
-        <gomoku-board #board (onGo)="onGo($event)"></gomoku-board>
+      <div class="w-full aspect-square">
+        <gomoku-board #board (onTurn)="turn($event)"></gomoku-board>
       </div>
     </div>
 
     <!-- Game Actions -->
     <div class="flex items-center">
       <div class="flex-1 text-left">
-        <button class="daisy-btn daisy-btn-primary daisy-btn-outline daisy-btn-circle">
+        <button
+          class="daisy-btn daisy-btn-primary daisy-btn-outline daisy-btn-circle"
+          (click)="undo()"
+        >
           <icon name="heroicons_outline:reply"></icon>
         </button>
       </div>

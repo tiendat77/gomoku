@@ -21,7 +21,7 @@ import { PieceComponent } from '../piece/piece.component';
 })
 export class BoardComponent implements Board {
 
-  @Output() onGo: EventEmitter<Place> = new EventEmitter();
+  @Output() onTurn: EventEmitter<Place> = new EventEmitter();
 
   @ViewChildren(PieceComponent) protected places: QueryList<PieceComponent>;
 
@@ -94,7 +94,7 @@ export class BoardComponent implements Board {
       return;
     }
 
-    this.onGo.emit(place);
+    this.onTurn.emit(place);
   }
 
 }

@@ -1,6 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, HostBinding, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, Component, ChangeDetectionStrategy,
+  HostBinding, ViewChild, inject
+} from '@angular/core';
+import { DialogService } from '@libs/dialog';
+import { Game, GameConfig, Place } from '@models';
+
 import { BoardComponent } from './components';
-import { Game, Place } from '@models';
+import { SetUpDialogComponent } from './dialogs';
 
 @Component({
   selector: 'gomoku-game',
@@ -13,7 +19,13 @@ export class GameComponent implements AfterViewInit {
   @ViewChild('board') board: BoardComponent;
   @HostBinding('class.playing') private playing = false;
 
+  private _config: GameConfig = {
+    mode: 'medium',
+    color: 'white',
+  };
+
   private _game: Game = Game.getInstance();
+  private _dialog = inject(DialogService);
 
   constructor() { }
 
@@ -31,12 +43,12 @@ export class GameComponent implements AfterViewInit {
 
   create() {
     this.board?.clear();
-    this._game.setBoard(this.board);
-    this._game.create('easy');
+    this._game.create(this.board);
   }
 
   start() {
     this.playing = true;
+    this._game?.create();
     this._game?.start();
   }
 
@@ -49,7 +61,20 @@ export class GameComponent implements AfterViewInit {
   }
 
   setup() {
+    const dialogRef = this._dialog.open(SetUpDialogComponent, {
+      data: {
+        config: this._config
+      }
+    });
 
+    dialogRef.afterClosed$.subscribe((result) => {
+      if (result) {
+        this._config = result.config;
+        this._game.setMode(this._config.mode);
+        this._game.setColor(this._config.color);
+        this.start();
+      }
+    });
   }
 
 }

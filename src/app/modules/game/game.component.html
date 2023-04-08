@@ -47,7 +47,7 @@
 
       <div class="flex-1 text-center">
         <button
-          class="daisy-btn daisy-btn-primary daisy-btn-circle w-24"
+          class="daisy-btn daisy-btn-primary rounded-full text-lg w-24"
           (click)="start()"
         >
           go
@@ -55,7 +55,10 @@
       </div>
 
       <div class="flex-1 text-right">
-        <button class="daisy-btn daisy-btn-primary daisy-btn-outline daisy-btn-circle">
+        <button
+          class="daisy-btn daisy-btn-primary daisy-btn-outline daisy-btn-circle"
+          (click)="setup()"
+        >
           <icon name="heroicons_outline:star"></icon>
         </button>
       </div>

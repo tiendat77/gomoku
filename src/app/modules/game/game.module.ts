@@ -6,6 +6,7 @@ import { NgxPanZoomModule } from '@libs/panzoom';
 import { GameComponent } from './game.component';
 import { BoardComponent } from './components';
 import { PieceComponent } from './components';
+import { SetUpDialogComponent } from './dialogs';
 
 const routes: Route[] = [{
   path: '',
@@ -14,9 +15,12 @@ const routes: Route[] = [{
 
 @NgModule({
   declarations: [
+    /** Components */
     GameComponent,
     BoardComponent,
     PieceComponent,
+    /** Dialogs */
+    SetUpDialogComponent,
   ],
   imports: [
     SharedModule,

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --btn-text-case: none;
+}
+
 @layer base {
   * {
     /* Text rendering */

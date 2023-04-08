@@ -14,6 +14,7 @@ export class IconsModule {
     private _iconRegistry: IconRegistry
   ) {
     // Register icon sets
+    this._iconRegistry.addSvgIconSetInNamespace('gomoku', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/svg-icons/gomoku.svg'));
     this._iconRegistry.addSvgIconSetInNamespace('heroicons_outline', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/svg-icons/heroicons-outline.svg'));
     this._iconRegistry.addSvgIconSetInNamespace('heroicons_solid', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/svg-icons/heroicons-solid.svg'));
   }

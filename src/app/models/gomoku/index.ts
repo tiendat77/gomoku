@@ -1,5 +1,6 @@
 export * from './board.model';
 export * from './color.model';
+export * from './config.model';
 export * from './game.model';
 export * from './level.model';
 export * from './mode.model';

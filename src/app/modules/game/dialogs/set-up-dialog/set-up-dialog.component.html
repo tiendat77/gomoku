@@ -1,0 +1,114 @@
+<div class="flex flex-col relative">
+  <!-- Close -->
+  <div class="absolute top-0 right-0 p-1">
+    <button
+      class="daisy-btn daisy-btn-circle daisy-btn-ghost"
+      (click)="close()"
+    >
+      <icon name="heroicons_outline:x"></icon>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <div class="flex items-center justify-center px-4 py-4">
+    <h1 class="text-primary text-2xl font-black">gomoku</h1>
+  </div>
+
+  <!-- Body -->
+  <div [formGroup]="form" class="flex-auto px-4 py-6">
+    <section class="mb-4">
+      <p class="text-lg font-medium mb-2">play against</p>
+
+      <div class="flex justify-center items-center overflow-hidden w-full rounded p-0.5 space-x-1 relative bg-default">
+        <label class="flex justify-center items-center py-1 px-2 h-12 w-full appearance-none cursor-pointer select-none relative duration-100 rounded active:bg-hover transition-colors focus:outline-none">
+          <span class="inline-flex items-center font-semibold text-center z-1">
+            <icon name="gomoku:robot"></icon>
+            <span class="ml-2">idiot</span>
+          </span>
+          <input hidden type="radio" class="peer" value="hvc" formControlName="mode">
+          <span class="absolute top-0 left-0 right-0 bottom-0 m-0.5 pointer-events-none bg-card shadow rounded hidden peer-checked:block animate__animated animate__faster animate__slideInRight"></span>
+        </label>
+
+        <label class="flex justify-center items-center py-1 px-2 h-12 w-full appearance-none cursor-pointer select-none relative duration-100 rounded active:bg-hover transition-colors focus:outline-none">
+          <span class="inline-flex items-center font-semibold text-center z-1">
+            <icon name="gomoku:human"></icon>
+            <span class="ml-2">human</span>
+          </span>
+          <input hidden type="radio" class="peer" value="hvh" formControlName="mode">
+          <span class="absolute top-0 left-0 right-0 bottom-0 m-0.5 pointer-events-none bg-card shadow rounded hidden peer-checked:block animate__animated animate__faster animate__slideInLeft"></span>
+        </label>
+      </div>
+    </section>
+
+    <section
+      class="mb-4"
+      [ngClass]="{'pointer-events-none opacity-50': form?.get('color').disabled}"
+    >
+      <p class="text-lg font-medium mb-2">play as</p>
+
+      <div class="flex justify-center items-center overflow-hidden w-full rounded p-0.5 space-x-1 relative bg-default">
+        <label class="flex justify-center items-center py-1 px-2 h-12 w-full appearance-none cursor-pointer select-none relative duration-100 rounded active:bg-hover transition-colors focus:outline-none">
+          <span class="inline-flex items-center font-semibold text-center z-1">
+            <icon name="gomoku:stone-white"></icon>
+            <span class="ml-2">white</span>
+          </span>
+          <input hidden type="radio" class="peer" value="white" formControlName="color">
+          <span class="absolute top-0 left-0 right-0 bottom-0 m-0.5 pointer-events-none bg-card shadow rounded hidden peer-checked:block animate__animated animate__faster animate__slideInRight"></span>
+        </label>
+
+        <label class="flex justify-center items-center py-1 px-2 h-12 w-full appearance-none cursor-pointer select-none relative duration-100 rounded active:bg-hover transition-colors focus:outline-none">
+          <span class="inline-flex items-center font-semibold text-center z-1">
+            <icon name="gomoku:stone-black"></icon>
+            <span class="ml-2">black</span>
+          </span>
+          <input hidden type="radio" class="peer" value="black" formControlName="color">
+          <span class="absolute top-0 left-0 right-0 bottom-0 m-0.5 pointer-events-none bg-card shadow rounded hidden peer-checked:block animate__animated animate__faster animate__slideInLeft"></span>
+        </label>
+      </div>
+    </section>
+
+    <section [ngClass]="{'pointer-events-none opacity-50': form?.get('level').disabled}">
+      <p class="text-lg font-medium mb-2">difficulty</p>
+
+      <div class="flex justify-center items-center overflow-hidden w-full rounded p-0.5 space-x-1 relative bg-default">
+        <label class="flex justify-center items-center py-1 px-2 h-12 w-full appearance-none cursor-pointer select-none relative duration-100 rounded active:bg-hover transition-colors focus:outline-none">
+          <span class="inline-flex items-center font-semibold text-center z-1">
+            <icon name="gomoku:level-easy"></icon>
+            <span class="ml-2">novice</span>
+          </span>
+          <input hidden type="radio" class="peer" value="easy" formControlName="level">
+          <span class="absolute top-0 left-0 right-0 bottom-0 m-0.5 pointer-events-none bg-card shadow rounded hidden peer-checked:block animate__animated animate__faster animate__slideInRight"></span>
+        </label>
+
+        <label class="flex justify-center items-center py-1 px-2 h-12 w-full appearance-none cursor-pointer select-none relative duration-100 rounded active:bg-hover transition-colors focus:outline-none">
+          <span class="inline-flex items-center font-semibold text-center z-1">
+            <icon name="gomoku:level-medium"></icon>
+            <span class="ml-2">easy</span>
+          </span>
+          <input hidden type="radio" class="peer" value="medium" formControlName="level">
+          <span class="absolute top-0 left-0 right-0 bottom-0 m-0.5 pointer-events-none bg-card shadow rounded hidden peer-checked:block animate__animated animate__faster animate__fadeIn"></span>
+        </label>
+
+        <label class="flex justify-center items-center py-1 px-2 h-12 w-full appearance-none cursor-pointer select-none relative duration-100 rounded active:bg-hover transition-colors focus:outline-none">
+          <span class="inline-flex items-center font-semibold text-center z-1">
+            <icon name="gomoku:level-insane"></icon>
+            <span class="ml-2">insane</span>
+          </span>
+          <input hidden type="radio" class="peer" value="master" formControlName="level">
+          <span class="absolute top-0 left-0 right-0 bottom-0 m-0.5 pointer-events-none bg-card shadow rounded hidden peer-checked:block animate__animated animate__faster animate__slideInLeft"></span>
+        </label>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <div class="px-4 py-4">
+    <button
+      class="daisy-btn daisy-btn-primary text-lg rounded-full w-full animate__animated animate__delay-3s animate__pulse"
+      (click)="submit()"
+    >
+      start game
+    </button>
+  </div>
+
+</div>

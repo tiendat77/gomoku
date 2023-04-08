@@ -10,10 +10,14 @@ import { AIPlayer } from './player-ai.model';
 import { Board } from './board.model';
 
 export class Game {
-  rounds = 0;
+
+  /** Game Configs */
   color: Color;
-  grid: number[][] = [];
   mode: Mode | Level = 'medium';
+
+  /** Game Play */
+  rounds = 0;
+  grid: number[][] = [];
   playing = false;
 
   players: GamePlayers = {
@@ -45,34 +49,49 @@ export class Game {
     return this;
   }
 
-  create(mode: Mode | Level, color: Color = 'white') {
-    try {
-      this.players['black']?.terminate();
-      this.players['white']?.terminate();
-    } catch (e) {}
-
-    this.rounds = 0;
+  setMode(mode: Mode | Level): Game {
     this.mode = mode;
-    this._history = [];
+    return this;
+  }
+
+  setColor(color: Color): Game {
     this.color = color;
+    return this;
+  }
 
-    this._board.clear();
-    this.grid = GRID.map((row) => row.slice());
+  create(board?: Board) {
+    if (board) {
+      this._board = board;
+    }
 
-    this.players['black'] = null;
-    this.players['white'] = null;
+    this.reset();
 
     if (this.mode === 'hvh') {
       this.players['black'] = new HumanPlayer('black');
       this.players['white'] = new HumanPlayer('white');
 
     } else {
-      const other = COLOUR[1 - PLAYER[color]];
+      const other = COLOUR[1 - PLAYER[this.color]];
       this.players[other] = new AIPlayer(other, this.mode as Level);
-      this.players[color] = new HumanPlayer(color);
+      this.players[this.color] = new HumanPlayer(this.color);
     }
 
     return this;
+  }
+
+  reset() {
+    try {
+      this.players['black']?.terminate();
+      this.players['white']?.terminate();
+    } catch (e) {}
+
+    this.rounds = 0;
+    this.grid = GRID.map((row) => row.slice());
+    this._history = [];
+    this._board?.clear();
+
+    this.players['black'] = null;
+    this.players['white'] = null;
   }
 
   start() {

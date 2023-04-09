@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Route, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
 import { NgxPanZoomModule } from '@libs/panzoom';
 
@@ -8,11 +8,6 @@ import { BoardComponent } from './components';
 import { PieceComponent } from './components';
 import { SetUpDialogComponent } from './dialogs';
 import { GameOverDialogComponent } from './dialogs';
-
-const routes: Route[] = [{
-  path: '',
-  component: GameComponent
-}];
 
 @NgModule({
   declarations: [
@@ -27,7 +22,10 @@ const routes: Route[] = [{
   imports: [
     SharedModule,
     NgxPanZoomModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild([{
+      path: '',
+      component: GameComponent
+    }])
   ]
 })
 export class GameModule { }

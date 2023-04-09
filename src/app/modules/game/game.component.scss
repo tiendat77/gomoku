@@ -4,7 +4,7 @@ gomoku-game {
   flex-direction: column;
 
   nav[sticky] {
-    @apply sticky top-2 z-10 backdrop-saturate-200 backdrop-blur-xl bg-card bg-opacity-80 shadow;
+    @apply sticky top-2 z-10 backdrop-blur-lg bg-card bg-opacity-20 shadow;
   }
 
   .stone {

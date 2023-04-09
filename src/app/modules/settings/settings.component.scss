@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+nav[sticky] {
+  @apply sticky top-2 z-10 backdrop-blur-lg bg-card bg-opacity-20 shadow;
+}

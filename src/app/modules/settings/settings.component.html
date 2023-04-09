@@ -1,0 +1,45 @@
+<main class="flex-auto flex flex-col w-full sm:container md:max-w-2xl mx-auto">
+
+  <!-- Header -->
+  <nav header class="flex items-center py-3 px-6 rounded-lg h-18 transition-all duration-250 ease-soft-in">
+    <div class="flex-1 text-left w-1/4">
+      <button
+        class="daisy-btn text-primary daisy-btn-circle daisy-btn-ghost"
+        routerLink="/game"
+      >
+        <icon name="heroicons_outline:arrow-left"></icon>
+      </button>
+    </div>
+
+    <div class="flex-auto flex justify-center text-center">
+      <h1 class="text-2xl font-bold text-primary">settings</h1>
+    </div>
+
+    <div class="flex-1 text-right w-1/4"></div>
+  </nav>
+
+  <!-- Body -->
+  <div class="w-full flex-auto flex flex-col gap-6 p-4 sm:p-6">
+    <ul class="daisy-menu">
+      <li>
+        <a class="rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+        Item 2
+        </a>
+      </li>
+      <li>
+        <a class="rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          Item 1
+        </a>
+      </li>
+      <li *ngFor="let if of [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]">
+        <a class="rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+          Item 3
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</main>

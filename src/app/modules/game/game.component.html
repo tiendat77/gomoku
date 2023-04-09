@@ -6,7 +6,14 @@
 
   <!-- Header -->
   <nav header class="flex items-center py-3 px-6 rounded-lg h-18 transition-all duration-250 ease-soft-in">
-    <div class="flex-1 text-left w-1/4"></div>
+    <div class="flex-1 text-left w-1/4">
+      <button
+        class="daisy-btn text-primary daisy-btn-circle daisy-btn-ghost"
+        routerLink="/settings"
+      >
+        <icon name="heroicons_outline:view-grid"></icon>
+      </button>
+    </div>
 
     <div class="flex-auto flex justify-center text-center">
       <svg class="h-6 w-auto" version="1.1" viewBox="0 0 1280 277" xmlns="http://www.w3.org/2000/svg">
@@ -29,11 +36,7 @@
       </svg>
     </div>
 
-    <div class="flex-1 text-right w-1/4">
-      <button class="daisy-btn text-primary daisy-btn-circle daisy-btn-ghost">
-        <icon name="heroicons_outline:cog"></icon>
-      </button>
-    </div>
+    <div class="flex-1 text-right w-1/4"></div>
   </nav>
 
   <!-- Body -->

@@ -13,6 +13,8 @@ nav[sticky] {
 }
 
 .stone {
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
   user-select: none;
   border-radius: 50%;
@@ -20,13 +22,13 @@ nav[sticky] {
 }
 
 .stone.white {
-  width: 30px;
-  height: 30px;
   background: radial-gradient(closest-corner at 30% 25%, #f8f8f8, #e3e3e3);
 }
 
 .stone.black {
-  width: 30px;
-  height: 30px;
   background: radial-gradient(closest-corner at 30% 25%, #9a9a9a, #565656, #3c3c3c);
+}
+
+.stone.koi-fish {
+  background: url('/assets/images/koi-fish.svg')
 }

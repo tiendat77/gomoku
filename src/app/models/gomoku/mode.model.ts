@@ -1,1 +1,3 @@
-export type Mode = 'hvh' | 'hvc';
+export type Mode =
+  'hvh' | // human vs human
+  'hvc'; // human vs computer

@@ -1,0 +1,80 @@
+<div class="flex flex-col relative">
+  <!-- Close -->
+  <div class="absolute top-0 right-0 p-1">
+    <button
+      class="daisy-btn daisy-btn-circle daisy-btn-ghost"
+      (click)="close()"
+    >
+      <icon name="heroicons_outline:x"></icon>
+    </button>
+  </div>
+
+  <!-- Header -->
+  <div class="flex items-center justify-center px-4 py-4">
+    <h1 class="text-primary text-2xl font-black">game over</h1>
+  </div>
+
+  <!-- Body -->
+  <div class="flex-auto px-4 py-8">
+    <ng-container [ngTemplateOutlet]="mode === 'hvh' ? hvhTpl : hvcTpl">
+    </ng-container>
+
+    <ng-template #hvhTpl>
+      <ng-container [ngSwitch]="result">
+        <ng-container *ngSwitchCase="'draw'">
+          <p class="text-4xl text-center text-indigo-500 font-extrabold mb-10">draw</p>
+
+          <div class="flex items-center justify-center">
+            <img class="sm:w-60" src="assets/images/cool.png" alt="">
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <p class="text-4xl text-center text-amber-400 font-extrabold mb-10">{{result}} win</p>
+
+          <div class="flex items-center justify-center">
+            <img class="sm:w-60" src="assets/images/shocked.png" alt="">
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #hvcTpl>
+      <ng-container [ngSwitch]="result">
+        <ng-container *ngSwitchCase="'lose'">
+          <p class="text-4xl text-center text-slate-600 font-extrabold mb-10">you lose</p>
+
+          <div class="flex items-center justify-center">
+            <img class="sm:w-60" src="assets/images/confused.png" alt="">
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'win'">
+          <p class="text-4xl text-center text-amber-400 font-extrabold mb-10">you win</p>
+
+          <div class="flex items-center justify-center">
+            <img class="sm:w-60" src="assets/images/surprised.png" alt="">
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <p class="text-4xl text-center text-indigo-500 font-extrabold mb-10">draw</p>
+
+          <div class="flex items-center justify-center">
+            <img class="sm:w-60" src="assets/images/cool.png" alt="">
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-template>
+  </div>
+
+  <!-- Footer -->
+  <div class="px-4 py-4">
+    <button
+      class="daisy-btn daisy-btn-primary text-lg rounded-full w-full"
+      (click)="again()"
+    >
+      again
+    </button>
+  </div>
+</div>

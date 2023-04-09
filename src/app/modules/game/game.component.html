@@ -23,8 +23,17 @@
   <div class="w-full flex flex-col gap-6 p-4 sm:p-6">
     <!-- Game Status -->
     <div class="rounded-lg px-4 py-3 bg-card shadow-sm flex items-center">
-      <div class="stone white"></div>
-      <div class="ml-4 font-medium">Your Turn</div>
+      <div
+        class="stone"
+        [ngClass]="{
+          'white': status.color === 'white',
+          'black': status.color === 'black',
+          'koi-fish': !status.color
+        }"
+      >
+      </div>
+
+      <div class="ml-4 font-medium">{{status.message}}</div>
     </div>
 
     <!-- Game Board -->
@@ -48,6 +57,7 @@
       <div class="flex-1 text-center">
         <button
           class="daisy-btn daisy-btn-primary rounded-full text-lg w-24"
+          *ngIf="!playing"
           (click)="start()"
         >
           go

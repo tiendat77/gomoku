@@ -8,23 +8,30 @@ import { HumanPlayer } from './player-human.model';
 import { GamePlayers } from './player.model';
 import { AIPlayer } from './player-ai.model';
 import { Board } from './board.model';
+import { GameOver } from './over.model';
+import { Status } from './status.model';
 
 export class Game {
 
-  /** Game Configs */
-  color: Color;
-  mode: Mode | Level = 'medium';
-
   /** Game Play */
   rounds = 0;
-  grid: number[][] = [];
+  color: Color;
   playing = false;
+  grid: number[][] = [];
 
   players: GamePlayers = {
     black: null,
     white: null,
   };
 
+  /** Game Configs */
+  // mode: Mode | Level = 'medium';
+  private _mode: Mode;
+  private _level: Level;
+  private _color: Color;
+
+  private _overCallback: (result: GameOver) => void;
+  private _statusCallback: (data: Status) => void;
   private _board: Board;
   private _history: PlaceHistory[] = [];
 
@@ -49,14 +56,35 @@ export class Game {
     return this;
   }
 
-  setMode(mode: Mode | Level): Game {
-    this.mode = mode;
+  setMode(mode: Mode): Game {
+    this._mode = mode;
+    return this;
+  }
+
+  setLevel(level: Level) {
+    this._level = level;
     return this;
   }
 
   setColor(color: Color): Game {
-    this.color = color;
+    this._color = color;
     return this;
+  }
+
+  setOnOver(callback: (result: GameOver) => void) {
+    this._overCallback = callback;
+  }
+
+  setOnStatus(callback: (data: Status) => void) {
+    if (this._overCallback) {
+      this._statusCallback = callback;
+    }
+  }
+
+  setStatus(status: Status) {
+    if (this._statusCallback) {
+      this._statusCallback(status);
+    }
   }
 
   create(board?: Board) {
@@ -66,14 +94,14 @@ export class Game {
 
     this.reset();
 
-    if (this.mode === 'hvh') {
+    if (this._mode === 'hvh') {
       this.players['black'] = new HumanPlayer('black');
       this.players['white'] = new HumanPlayer('white');
 
     } else {
-      const other = COLOUR[1 - PLAYER[this.color]];
-      this.players[other] = new AIPlayer(other, this.mode as Level);
-      this.players[this.color] = new HumanPlayer(this.color);
+      const other = COLOUR[1 - PLAYER[this._color]];
+      this.players[other] = new AIPlayer(other, this._level);
+      this.players[this._color] = new HumanPlayer(this._color);
     }
 
     return this;
@@ -99,30 +127,29 @@ export class Game {
     this.players?.black?.turn();
   }
 
-  end(result: string) {
+  end(result: 'over' | 'draw') {
     this.playing = false;
     this._board.setPlaceable(false);
+    this.setStatus({message: 'game over'});
 
-    // TODO:
-    // this.game.turn(null, 'Game over');
-    // if (result === 'draw') {
-    //   this.audio.play('applause');
-    //   return this.game.over('draw');
-    // }
+    if (result === 'draw') {
+      // this.audio.play('applause');
+      return this._overCallback('draw');
+    }
 
-    // if (this.mode === 'hvh') {
-    //   this.audio.play('win');
-    //   return this.game.over(this.color);
-    // }
+    if (this._mode === 'hvh') {
+      // this.audio.play('win');
+      return this._overCallback(this.color);
+    }
 
-    // if (this.players[this.color] instanceof HumanPlayer) {
-    //   this.audio.play('win');
-    //   return this.game.over('win');
+    if (this.players[this.color] instanceof HumanPlayer) {
+      // this.audio.play('win');
+      return this._overCallback('win');
 
-    // } else {
-    //   this.audio.play('lose');
-    //   return this.game.over('lose');
-    // }
+    } else {
+      // this.audio.play('lose');
+      return this._overCallback('lose');
+    }
   }
 
   place(place: Place) {
@@ -150,7 +177,7 @@ export class Game {
     this.grid[row][col] = PLAYER[color];
     this._history.push({ row, col, color: PLAYER[color] });
 
-    const result = this._result(row, col, PLAYER[color]);
+    const result = this._isOver(row, col, PLAYER[color]);
 
     if (result) {
       this.end('over');
@@ -163,7 +190,7 @@ export class Game {
     }
 
     this.update(row, col, color);
-    return true;
+    return false;
   }
 
   update(row: number, col: number, color: Color) {
@@ -188,7 +215,7 @@ export class Game {
   }
 
   regret() {
-    if (this.mode !== 'hvh' && this._history.length === 1) {
+    if (this._mode !== 'hvh' && this._history.length === 1) {
       return;
     }
 
@@ -227,7 +254,7 @@ export class Game {
   // @ Private methods
   // -----------------------------------------------------------------------------------------------------
 
-  private _result(row: number, col: number, player: number) {
+  private _isOver(row: number, col: number, player: number) {
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (i == 0 && j == 0) {

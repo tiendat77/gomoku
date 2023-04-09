@@ -13,6 +13,10 @@ export class HumanPlayer extends Player {
   regret(row: number, col: number) {}
 
   turn() {
+    Game.getInstance().setStatus({
+      color: this.color,
+      message: 'your turn',
+    });
     Game.getInstance().turn(this.color, true);
   }
 

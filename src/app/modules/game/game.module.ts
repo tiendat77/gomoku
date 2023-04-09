@@ -7,6 +7,7 @@ import { GameComponent } from './game.component';
 import { BoardComponent } from './components';
 import { PieceComponent } from './components';
 import { SetUpDialogComponent } from './dialogs';
+import { GameOverDialogComponent } from './dialogs';
 
 const routes: Route[] = [{
   path: '',
@@ -21,6 +22,7 @@ const routes: Route[] = [{
     PieceComponent,
     /** Dialogs */
     SetUpDialogComponent,
+    GameOverDialogComponent,
   ],
   imports: [
     SharedModule,

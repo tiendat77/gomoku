@@ -71,32 +71,21 @@ export class SetUpDialogComponent implements OnInit, OnDestroy {
   // -----------------------------------------------------------------------------------------------------
 
   private _patchForm(config: GameConfig): void {
-    if (config.mode === 'hvh') {
-      this.form.patchValue({mode: 'hvh'});
-
-    } else {
-      this.form.patchValue({
-        mode: 'hvc',
-        level: config.mode as Level,
-        color: config.color,
-      });
-    }
+    this.form.patchValue({
+      mode: config?.mode ?? 'hvc',
+      level: config?.level ?? 'medium',
+      color: config?.color ?? 'white',
+    });
   }
 
   private _getForm(): GameConfig {
     const form = this.form.value;
+
     const config: GameConfig = {
-      mode: 'medium',
-      color: 'white'
+      mode: form?.mode ?? 'hvc',
+      color: form?.color ?? 'white',
+      level: form?.level ?? 'medium'
     };
-
-    if (form.mode === 'hvh') {
-      config.mode = 'hvh';
-
-    } else {
-      config.mode = form.level;
-      config.color = form.color;
-    }
 
     return config;
   }

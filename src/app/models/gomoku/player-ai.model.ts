@@ -50,8 +50,11 @@ export class AIPlayer extends Player {
   }
 
   turn() {
+    Game.getInstance().setStatus({
+      color: this.color,
+      message: 'thinking...',
+    });
     Game.getInstance().turn(this.color, false);
-    // GameService.instance.turn(this.color, 'Thinking...');
 
     this.move();
   }
@@ -104,11 +107,11 @@ export class AIPlayer extends Player {
     while(true) {
       const index = Math.floor(Math.random() * moves.length);
 
-      if (this.go(moves[index][0], moves[index][1])){
+      if (this.go(moves[index][0], moves[index][1])) {
         return;
       }
 
-      moves.splice(index,1);
+      moves.splice(index, 1);
     }
   }
 

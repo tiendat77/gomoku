@@ -3,6 +3,7 @@ import { Level } from './level.model';
 import { Mode } from './mode.model';
 
 export interface GameConfig {
-  mode: Mode | Level;
+  mode: Mode;
+  level: Level;
   color: Color;
 }

@@ -34,7 +34,7 @@ export class BoardComponent implements Board, OnInit, OnDestroy {
   private _destroyed$ = new Subject<void>();
 
   constructor(
-    private  _elementRef: ElementRef
+    private _elementRef: ElementRef
   ) { }
 
   // -----------------------------------------------------------------------------------------------------
@@ -126,6 +126,10 @@ export class BoardComponent implements Board, OnInit, OnDestroy {
     }
 
     this.onTurn.emit(place);
+  }
+
+  zoomOut() {
+    this._panZoomAPI?.resetView();
   }
 
 }

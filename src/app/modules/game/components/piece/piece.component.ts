@@ -4,11 +4,13 @@ import {
   Input, Output, ViewEncapsulation
 } from '@angular/core';
 import { Color, Piece, Place } from '@models';
+import { JustClickDirective } from './just-click.directive';
 
 @Component({
   selector: 'gomoku-piece',
   templateUrl: './piece.component.html',
   styleUrls: ['./piece.component.scss'],
+  hostDirectives: [JustClickDirective],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -28,8 +30,12 @@ export class PieceComponent implements Piece {
     return this._elementRef.nativeElement as HTMLElement;
   }
 
-  @HostListener('click', ['$event'])
-  click() {
+  /**
+   * @description Prevent double click, long click
+   * To make sure this component don't effect to the pan-zoom component
+   */
+  @HostListener('just-click', ['$event'])
+  justClick() {
     this.onGo.emit({r: this.r, c: this.c});
   }
 

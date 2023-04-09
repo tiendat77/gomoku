@@ -1,6 +1,7 @@
 import {
   AfterViewInit, Component, ChangeDetectionStrategy,
-  HostBinding, ViewChild, inject, ChangeDetectorRef
+  HostBinding, ViewChild, inject, ChangeDetectorRef,
+  ViewEncapsulation
 } from '@angular/core';
 import { DialogService } from '@libs/dialog';
 
@@ -14,6 +15,7 @@ import { GameOverDialogComponent, SetUpDialogComponent } from './dialogs';
   selector: 'gomoku-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameComponent implements AfterViewInit {

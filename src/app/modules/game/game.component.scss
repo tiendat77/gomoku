@@ -1,34 +1,36 @@
-:host {
+gomoku-game {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
 
-  &.playing gomoku-board {
-    cursor: pointer;
+  nav[sticky] {
+    @apply sticky top-2 z-10 backdrop-saturate-200 backdrop-blur-xl bg-card bg-opacity-80 shadow;
+  }
+
+  .stone {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    user-select: none;
+    border-radius: 50%;
+    box-sizing: border-box;
+  }
+
+  .stone.white {
+    background: radial-gradient(closest-corner at 30% 25%, #f8f8f8, #e3e3e3);
+  }
+
+  .stone.black {
+    background: radial-gradient(closest-corner at 30% 25%, #9a9a9a, #565656, #3c3c3c);
+  }
+
+  .stone.koi-fish {
+    background: url('/assets/images/koi-fish.svg')
   }
 }
 
-nav[sticky] {
-  @apply sticky top-2 z-10 backdrop-saturate-200 backdrop-blur-xl bg-card bg-opacity-80 shadow;
-}
-
-.stone {
-  width: 30px;
-  height: 30px;
-  flex-shrink: 0;
-  user-select: none;
-  border-radius: 50%;
-  box-sizing: border-box;
-}
-
-.stone.white {
-  background: radial-gradient(closest-corner at 30% 25%, #f8f8f8, #e3e3e3);
-}
-
-.stone.black {
-  background: radial-gradient(closest-corner at 30% 25%, #9a9a9a, #565656, #3c3c3c);
-}
-
-.stone.koi-fish {
-  background: url('/assets/images/koi-fish.svg')
+gomoku-game.playing {
+  gomoku-piece {
+    cursor: pointer;
+  }
 }

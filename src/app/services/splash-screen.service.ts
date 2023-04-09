@@ -17,7 +17,7 @@ export class SplashScreenService {
       filter((event) => event instanceof NavigationEnd),
       take(1)
     ).subscribe(() => {
-      setTimeout(() => this.hide(), 1200);
+      setTimeout(() => this.hide(), 0);
     });
   }
 

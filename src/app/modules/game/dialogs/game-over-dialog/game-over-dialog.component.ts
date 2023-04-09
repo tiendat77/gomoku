@@ -5,6 +5,12 @@ import { AudioService } from '@services';
 import { Confetti } from '@shared/helpers';
 import { GameConfig, GameOver, Level, Mode } from '@models';
 
+const LEVELS: Record<Level, string> = {
+  easy: 'novice',
+  medium: 'easy',
+  master: 'insane'
+};
+
 @Component({
   selector: 'app-game-over-dialog',
   templateUrl: './game-over-dialog.component.html',
@@ -21,6 +27,7 @@ export class GameOverDialogComponent implements OnInit {
   mode: Mode;
   level: Level;
   result: GameOver;
+  difficulty: string;
 
   constructor(
     private _audio: AudioService
@@ -40,6 +47,8 @@ export class GameOverDialogComponent implements OnInit {
     this.mode = config?.mode ?? 'hvc';
     this.level = config?.level ?? 'medium';
     this.result = this.ref.data.result;
+    this.difficulty = LEVELS[config?.level ?? 'medium'];
+
     this.sound();
     this.confetti();
   }

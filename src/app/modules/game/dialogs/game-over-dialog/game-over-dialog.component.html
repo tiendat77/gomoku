@@ -44,7 +44,7 @@
         <ng-container *ngSwitchCase="'lose'">
           <p class="text-4xl text-center text-slate-600 font-extrabold mb-10">you lose</p>
 
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center mb-10">
             <img class="sm:w-60 animate__animated animate__delay-500ms animate__bounce" src="assets/images/confused.png" alt="">
           </div>
         </ng-container>
@@ -52,7 +52,7 @@
         <ng-container *ngSwitchCase="'win'">
           <p class="text-4xl text-center text-amber-400 font-extrabold mb-10">you win</p>
 
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center mb-10">
             <img class="sm:w-60 animate__animated animate__delay-500ms animate__bounce" src="assets/images/surprised.png" alt="">
           </div>
         </ng-container>
@@ -60,10 +60,24 @@
         <ng-container *ngSwitchDefault>
           <p class="text-4xl text-center text-indigo-500 font-extrabold mb-10">draw</p>
 
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center mb-10">
             <img class="sm:w-60 animate__animated animate__delay-500ms animate__bounce" src="assets/images/cool.png" alt="">
           </div>
         </ng-container>
+
+        <p class="text-center text-3xl font-extrabold text-slate-500 mb-4">difficulty</p>
+        <p class="text-center">
+          <span
+            class="inline-flex items-center justify-center rounded-full px-4 py-0.5 text-xl font-semibold"
+            [ngClass]="{
+              'bg-emerald-100 text-emerald-700': level === 'easy',
+              'bg-amber-100 text-amber-700': level === 'medium',
+              'bg-rose-100 text-rose-600': level === 'master'
+            }"
+          >
+            {{difficulty}}
+          </span>
+        </p>
       </ng-container>
     </ng-template>
   </div>

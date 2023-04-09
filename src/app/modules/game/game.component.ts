@@ -93,6 +93,10 @@ export class GameComponent implements AfterViewInit {
   }
 
   turn(place: Place) {
+    if (!this.playing) {
+      return;
+    }
+
     this._audio.play('step');
     this._game?.place(place);
   }

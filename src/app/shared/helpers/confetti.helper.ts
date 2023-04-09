@@ -67,7 +67,7 @@ export const DEFAULT_OPTIONS: ConfettiOptions = {
   x: 0.5,
   y: 0.5,
   shapes: ['square', 'circle'],
-  zIndex: 100,
+  zIndex: 1051,
   colors: [
     '#26ccff',
     '#a25afd',
@@ -131,7 +131,7 @@ export class Confetti {
     };
   }
 
-  constructor(canvas?: HTMLCanvasElement, opts?: Partial<ConfettiOptions>) {
+  constructor(opts?: Partial<ConfettiOptions>) {
     this.options = opts ?? {};
   }
 
@@ -148,6 +148,7 @@ export class Confetti {
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------
+
   fire() {
     if (!this.canvas || !this.context) {
       this.init();

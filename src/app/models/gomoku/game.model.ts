@@ -133,21 +133,17 @@ export class Game {
     this.setStatus({message: 'game over'});
 
     if (result === 'draw') {
-      // this.audio.play('applause');
       return this._overCallback('draw');
     }
 
     if (this._mode === 'hvh') {
-      // this.audio.play('win');
       return this._overCallback(this.color);
     }
 
     if (this.players[this.color] instanceof HumanPlayer) {
-      // this.audio.play('win');
       return this._overCallback('win');
 
     } else {
-      // this.audio.play('lose');
       return this._overCallback('lose');
     }
   }
@@ -169,8 +165,6 @@ export class Game {
       return false;
     }
 
-    // TODO:
-    // this.audio.play('step');
     this._board?.set(row, col, color);
 
     this.rounds++;
@@ -228,7 +222,6 @@ export class Game {
         this.grid[last.row][last.col] = -1;
         this._board?.unset(last.row, last.col);
 
-        // TODO: Check this func
         this.players.white?.regret(last.row, last.col);
         this.players.black?.regret(last.row, last.col);
       }

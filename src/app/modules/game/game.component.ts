@@ -3,6 +3,8 @@ import {
   HostBinding, ViewChild, inject, ChangeDetectorRef
 } from '@angular/core';
 import { DialogService } from '@libs/dialog';
+
+import { AudioService } from '@services';
 import { Game, GameConfig, GameOver, Place, Status } from '@models';
 
 import { BoardComponent } from './components';
@@ -31,7 +33,8 @@ export class GameComponent implements AfterViewInit {
   private _dialog = inject(DialogService);
 
   constructor(
-    private readonly _cdr: ChangeDetectorRef
+    private readonly _cdr: ChangeDetectorRef,
+    private readonly _audio: AudioService,
   ) { }
 
   // -----------------------------------------------------------------------------------------------------
@@ -90,11 +93,17 @@ export class GameComponent implements AfterViewInit {
   }
 
   turn(place: Place) {
+    this._audio.play('step');
     this._game?.place(place);
   }
 
   undo() {
     this._game?.regret();
+
+    if (!this.playing) {
+      this.playing = true;
+      this._cdr.detectChanges();
+    }
   }
 
   setup() {

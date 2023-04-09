@@ -1,10 +1,11 @@
 import {
   ChangeDetectionStrategy, Component, ElementRef,
-  EventEmitter, Output, QueryList,
-  ViewChildren,
-  ViewEncapsulation
+  EventEmitter, OnDestroy, OnInit, Output, QueryList,
+  ViewChildren, ViewEncapsulation
 } from '@angular/core';
-import { PanZoomConfig } from '@libs/panzoom';
+import { Subject, debounceTime, fromEvent, takeUntil } from 'rxjs';
+
+import { PanZoomAPI, PanZoomConfig } from '@libs/panzoom';
 import { BOARD_SIZE, PANZOOM_CONFIG } from '@configs';
 import { Board, Color, Place } from '@models';
 
@@ -19,26 +20,56 @@ import { PieceComponent } from '../piece/piece.component';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardComponent implements Board {
+export class BoardComponent implements Board, OnInit, OnDestroy {
 
   @Output() onTurn: EventEmitter<Place> = new EventEmitter();
-
   @ViewChildren(PieceComponent) protected places: QueryList<PieceComponent>;
 
   board: number[][] = BoardHelper.board(BOARD_SIZE - 1);
   pieces: number[][] = BoardHelper.board(BOARD_SIZE);
+  readonly panZoomConfig = new PanZoomConfig(PANZOOM_CONFIG);
 
   protected placeable = false;
-
-  readonly panZoomConfig = new PanZoomConfig(PANZOOM_CONFIG);
+  private _panZoomAPI: PanZoomAPI;
+  private _destroyed$ = new Subject<void>();
 
   constructor(
     private  _elementRef: ElementRef
   ) { }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Accessors
+  // -----------------------------------------------------------------------------------------------------
+
   get element() {
     return this._elementRef.nativeElement as HTMLElement;
   }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lifecycle hooks
+  // -----------------------------------------------------------------------------------------------------
+
+  ngOnInit(): void {
+    this.panZoomConfig?.api?.pipe(
+      takeUntil(this._destroyed$)
+    )?.subscribe(api => this._panZoomAPI = api);
+
+    fromEvent(window, 'resize').pipe(
+      debounceTime(200),
+      takeUntil(this._destroyed$)
+    ).subscribe(() => {
+      this._panZoomAPI?.resetView();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._destroyed$.next();
+    this._destroyed$.complete();
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Public methods
+  // -----------------------------------------------------------------------------------------------------
 
   clear() {
     this.unHighlight();

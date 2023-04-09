@@ -1,0 +1,6 @@
+PackageName: @capacitor-community/native-audio
+Homepage: https://github.com/capacitor-community/native-audio/
+Author: capacitor-community
+Description: A native plugin for native audio engine
+License: MIT
+Version: 3.0.3

@@ -4,11 +4,15 @@
   overflow: hidden;
   position: relative;
   @keyframes dialog-open {
-    0% {
-      transform: translateX(50px);
+    from {
+      -webkit-transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 100%, 0);
+      visibility: visible;
     }
-    100% {
-      transform: none;
+
+    to {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
     }
   }
 

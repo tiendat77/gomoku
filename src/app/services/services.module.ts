@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 // Services
+import { AudioService } from './audio.service';
 import { LoaderService } from './loader.service';
 import { MetaService } from './meta.service';
 import { NotificationService } from './notification.service';
@@ -12,6 +13,7 @@ import { UserService } from './user.service';
 
 @NgModule({
   providers: [
+    AudioService,
     LoaderService,
     MetaService,
     NotificationService,
@@ -24,6 +26,7 @@ import { UserService } from './user.service';
 })
 export class ServicesModule {
   constructor(
+    private _audio: AudioService,
     private _loader: LoaderService,
     private _meta: MetaService,
     private _notification: NotificationService,

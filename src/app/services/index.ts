@@ -1,4 +1,5 @@
 export * from './services.module';
+export * from './audio.service';
 export * from './loader.service';
 export * from './meta.service';
 export * from './notification.service';

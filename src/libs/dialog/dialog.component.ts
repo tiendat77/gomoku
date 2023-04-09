@@ -16,6 +16,7 @@ import { DIALOG_CONFIG, NODES_TO_INSERT } from './providers';
       #backdrop
       class="ngneat-dialog-backdrop"
       [hidden]="!config.backdrop"
+      [class.ngneat-dialog-full-screen]="config.size === 'fullScreen'"
       [class.ngneat-dialog-backdrop-visible]="config.backdrop"
     >
       <div

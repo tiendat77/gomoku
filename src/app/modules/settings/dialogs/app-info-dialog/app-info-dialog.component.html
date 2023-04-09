@@ -1,0 +1,43 @@
+<div class="flex flex-col w-full sm:container md:max-w-2xl mx-auto relative">
+  <!-- Header -->
+  <nav class="flex items-center justify-center py-3 px-6 rounded-lg transition-all duration-250 ease-soft-in sticky top-2 z-10 backdrop-blur-lg bg-card bg-opacity-20 shadow">
+    <div class="flex-1 text-left w-1/4">
+      <button
+        class="daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm"
+        (click)="close()"
+      >
+        <icon name="heroicons_outline:arrow-left"></icon>
+      </button>
+    </div>
+
+    <div class="flex-auto flex justify-center text-center">
+      <h1 class="text-primary text-2xl font-black">about gomoku</h1>
+    </div>
+
+    <div class="flex-1 text-right w-1/4"></div>
+  </nav>
+
+  <!-- Body -->
+  <div class="flex-auto px-4 py-6">
+    <div class="flex flex-col items-center justify-center">
+      <img class="w-32 sm:w-44" src="/assets/favicon.svg" alt="">
+    </div>
+
+    <div class="mt-6">
+      <h2 class="font-bold text-lg text-center">history of gomoku</h2>
+      <p class="text-center mt-4">gomoku, also known as “five in a row” is a classic strategy game that is known in many countries around the world.</p>
+      <p class="text-center mt-1">gomoku has existed in japan since the meiji restoration. the name "gomoku" has japanese origins, in which it is referred to as gomokunarabe (五目並べ). go means five, moku is a counter word for pieces and narabe means line-up. the game is also popular in korea, where it is called omok (오목 [五目], "five stones") which has the same structure and origin as the japanese name. in china it is known as wuziqi (chinese 五子棋, pinyin wǔzǐqí).</p>
+    </div>
+
+    <div class="mt-6">
+      <h2 class="font-bold text-lg text-center">what you need to play gomoku?</h2>
+      <p class="text-center mt-4">in europe five in a row is mostly played with a pencil and paper. in most parts of the world, it's usually played with go pieces (black and white stones) on a go board. the go board’s dimensions are 15 × 15, 17 × 17 or 19 × 19.</p>
+    </div>
+
+    <div class="mt-6">
+      <h2 class="font-bold text-lg text-center">rules</h2>
+      <p class="text-center mt-4">each player takes turn to place their own piece, and whoever gets 5 straight pieces in a row in either vertical, horizontal or diagonal direction wins. pieces are never taken off the board, and once the whole board is filled, the game draws.</p>
+    </div>
+  </div>
+
+</div>

@@ -56,6 +56,14 @@
     background: rgba(0, 0, 0, 0.32);
   }
 
+  &.ngneat-dialog-full-screen {
+    padding: 0;
+
+    .ngneat-dialog-content {
+      border-radius: 0;
+    }
+  }
+
   animation: dialog-open-backdrop 0.3s;
 
   @keyframes dialog-open-backdrop {

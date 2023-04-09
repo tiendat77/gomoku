@@ -24,12 +24,14 @@ const custom = {
   },
   foreground: {
     light: {
+      'text-default': colors.slate[800],
       'border': colors.slate[200],
       'divider': colors.slate[200],
       'icon': colors.slate[500],
       'mat-icon': colors.slate[500],
     },
     dark: {
+      'text-default': '#FFFFFF',
       'border': chroma(colors.slate[100]).alpha(0.12).css(),
       'divider': chroma(colors.slate[100]).alpha(0.12).css(),
       'icon': colors.slate[400],
@@ -87,6 +89,10 @@ module.exports = plugin(({ addComponents }) => {
     '.bg-hover': {
       '--tw-bg-opacity': '0.12',
       backgroundColor: 'rgba(var(--bg-hover-rgb), var(--tw-bg-opacity))'
+    },
+    '.text-default': {
+      '--tw-text-opacity': '1',
+      color: 'rgba(var(--text-default-rgb), var(--tw-text-opacity))'
     },
     '.material-scroll': {
       '&::-webkit-scrollbar': {

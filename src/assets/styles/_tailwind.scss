@@ -62,7 +62,7 @@
     -webkit-text-fill-color: currentColor;
   }
 
-  /* Set the background and foreground colors */
+  // /* Set the background and foreground colors */
   body,
   .dark,
   .light {
@@ -119,11 +119,6 @@
         }
       }
     }
-  }
-
-  /* Set the foreground color for disabled elements */
-  [disabled] * {
-    @apply text-disabled #{'!important'};
   }
 
   /* Print styles */

@@ -11,7 +11,7 @@ export class NotificationService {
   }
 
   info(message: string) {
-    return this._toast.show(message);
+    return this._toast.info(message);
   }
 
   success(message: string) {

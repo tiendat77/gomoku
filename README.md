@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.6.
 
+Based on [yyjhao's work](https://github.com/yyjhao/HTML5-Gomoku)
+
 
 ## About the history of Gomoku
 
@@ -20,7 +22,7 @@ Each player takes turn to place their own piece, and whoever gets 5 straight pie
 
 ## Development server
 
-Run `npm run start` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `npm run start` for a dev server. Navigate to `http://localhost:3000/`. The application will automatically reload if you change any of the source files.
 
 ## Build
 

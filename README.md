@@ -4,6 +4,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Based on [yyjhao's work](https://github.com/yyjhao/HTML5-Gomoku)
 
+## Demo
+
+<img src="./dev/gomoku-demo.png" alt="">
+
+[Gomokudo](https://gomokudo.vercel.app/)
 
 ## About the history of Gomoku
 

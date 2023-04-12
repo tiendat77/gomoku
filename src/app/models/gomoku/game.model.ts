@@ -15,8 +15,8 @@ export class Game {
 
   /** Game Play */
   rounds = 0;
-  color: Color;
   playing = false;
+  color: Color = 'black';
   grid: number[][] = [];
 
   players: GamePlayers = {
@@ -184,7 +184,7 @@ export class Game {
     }
 
     this.update(row, col, color);
-    return false;
+    return true;
   }
 
   update(row: number, col: number, color: Color) {

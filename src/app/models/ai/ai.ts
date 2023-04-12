@@ -1,8 +1,8 @@
 import * as lodash from 'lodash';
 
 /**
- * Base-on: Zhiming Guo
- * https://github.com/zhming0/gobang
+ * Base-on: HTML5-Gomoku
+ * https://github.com/yyjhao/HTML5-Gomoku
  */
 
 export class AI {
